@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RodriguezCalvaRualesMAUIUniWay.Views.MyRidesPage"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            
+            <Label Text="Mis Viajes" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#2C3E50"
+                   Margin="0,20,0,0" />
+
+            <Label Text="Aquí verás todos tus viajes programados y historial" 
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   TextColor="#95A5A6"
+                   HorizontalTextAlignment="Center" />
+
+            
+            <Label Text="Mi Perfil" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#2C3E50"
+                   Margin="0,40,0,0" />
+
+            <Label Text="Configuración de tu perfil de usuario" 
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   TextColor="#95A5A6"
+                   HorizontalTextAlignment="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+
+
+
+
