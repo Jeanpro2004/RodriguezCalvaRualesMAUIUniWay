@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RodriguezCalvaRualesMAUIUniWay.Views.HomePage"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="30">
+
+            
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Start" Margin="0,40,0,0">
+                <Image Source="uniway_logo.png" 
+                       HeightRequest="80" 
+                       WidthRequest="80"
+                       Aspect="AspectFit"/>
+                <Label Text="UniWay" 
+                       FontSize="32" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="#8B0000"/>
+            </StackLayout>
+
+            
+            <Frame BackgroundColor="#F8F9FA" 
+                   CornerRadius="15"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="¡Bienvenido a UniWay!" 
+                           FontSize="24" 
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#2C3E50"/>
+
+                    <Label Text="Tu plataforma de confianza para compartir viajes universitarios de manera segura y económica."
+                           FontSize="16"
+                           TextColor="#34495E"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            
+            <VerticalStackLayout Spacing="15">
+                <Label Text="¿Por qué elegir UniWay?" 
+                       FontSize="20" 
+                       FontAttributes="Bold"
+                       TextColor="#2C3E50"/>
+
+                <Frame BackgroundColor="#E8F5E8" CornerRadius="10" Padding="15">
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Label Text="🚗" FontSize="24"/>
+                        <VerticalStackLayout>
+                            <Label Text="Viajes Seguros" FontAttributes="Bold" TextColor="#27AE60"/>
+                            <Label Text="Conductores verificados y valorados por la comunidad" TextColor="#2C3E50" FontSize="14"/>
+                        </VerticalStackLayout>
+                    </StackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="#E8F4FD" CornerRadius="10" Padding="15">
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Label Text="💰" FontSize="24"/>
+                        <VerticalStackLayout>
+                            <Label Text="Económico" FontAttributes="Bold" TextColor="#3498DB"/>
+                            <Label Text="Comparte gastos de combustible y peajes" TextColor="#2C3E50" FontSize="14"/>
+                        </VerticalStackLayout>
+                    </StackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="#FFF3E0" CornerRadius="10" Padding="15">
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Label Text="🎓" FontSize="24"/>
+                        <VerticalStackLayout>
+                            <Label Text="Solo Universitarios" FontAttributes="Bold" TextColor="#FF9800"/>
+                            <Label Text="Comunidad exclusiva para estudiantes universitarios" TextColor="#2C3E50" FontSize="14"/>
+                        </VerticalStackLayout>
+                    </StackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+           
+            <VerticalStackLayout Spacing="15" Margin="0,20,0,0">
+                <Button Text="Comenzar como Pasajero"
+                        BackgroundColor="#8B0000"
+                        TextColor="White"
+                        CornerRadius="25"
+                        HeightRequest="50"
+                        FontSize="16"
+                        FontAttributes="Bold"/>
+
+                <Button Text="Registrarse como Conductor"
+                        BackgroundColor="Transparent"
+                        TextColor="#8B0000"
+                        BorderColor="#8B0000"
+                        BorderWidth="2"
+                        CornerRadius="25"
+                        HeightRequest="50"
+                        FontSize="16"
+                        FontAttributes="Bold"/>
+            </VerticalStackLayout>
+
+            
+            <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="15" Margin="0,20,0,0">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Contacto" FontAttributes="Bold" FontSize="16" TextColor="#2C3E50"/>
+                    <Label Text="📧 soporte@uniway.com" TextColor="#34495E"/>
+                    <Label Text="📱 +593 99 123 4567" TextColor="#34495E"/>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

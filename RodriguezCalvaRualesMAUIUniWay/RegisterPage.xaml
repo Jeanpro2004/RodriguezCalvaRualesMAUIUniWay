@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RodriguezCalvaRualesMAUIUniWay.Views.RegisterPage"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20">
+
+           
+            <StackLayout HorizontalOptions="Center" Margin="0,20,0,20">
+                <Label Text="UniWay" 
+                       FontSize="28" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="#8B0000"/>
+                <Label Text="Crear Cuenta" 
+                       FontSize="18" 
+                       HorizontalOptions="Center"
+                       TextColor="#2C3E50"/>
+            </StackLayout>
+
+            
+            <Label Text="Información Personal" 
+                   FontSize="16" 
+                   FontAttributes="Bold" 
+                   TextColor="#2C3E50"/>
+
+            
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Nombre Completo" TextColor="#2C3E50" FontSize="14"/>
+                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                    <Entry x:Name="NameEntry"
+                           Placeholder="Ej: Juan Pérez"
+                           PlaceholderColor="#95A5A6"
+                           TextColor="#2C3E50"
+                           BackgroundColor="Transparent"
+                           Margin="15,0"/>
+                </Frame>
+            </VerticalStackLayout>
+
+            
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Email Universitario" TextColor="#2C3E50" FontSize="14"/>
+                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                    <Entry x:Name="EmailEntry"
+                           Placeholder="nombre@universidad.edu.ec"
+                           PlaceholderColor="#95A5A6"
+                           TextColor="#2C3E50"
+                           BackgroundColor="Transparent"
+                           Keyboard="Email"
+                           Margin="15,0"/>
+                </Frame>
+            </VerticalStackLayout>
+
+           
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Número de Teléfono" TextColor="#2C3E50" FontSize="14"/>
+                <StackLayout Orientation="Horizontal" Spacing="0">
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0" WidthRequest="80">
+                        <Label Text="+593" 
+                               TextColor="#2C3E50" 
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center"
+                               FontSize="16"/>
+                    </Frame>
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0" HorizontalOptions="FillAndExpand">
+                        <Entry x:Name="PhoneEntry"
+                               Placeholder="99 123 4567"
+                               PlaceholderColor="#95A5A6"
+                               TextColor="#2C3E50"
+                               BackgroundColor="Transparent"
+                               Keyboard="Telephone"
+                               Margin="15,0"/>
+                    </Frame>
+                </StackLayout>
+            </VerticalStackLayout>
+
+            
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Universidad" TextColor="#2C3E50" FontSize="14"/>
+                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                    <Picker x:Name="UniversityPicker"
+                            Title="Selecciona tu universidad"
+                            TitleColor="#95A5A6"
+                            TextColor="#2C3E50"
+                            BackgroundColor="Transparent"
+                            Margin="15,0">
+                        <Picker.Items>
+                            <x:String>Universidad Central del Ecuador</x:String>
+                            <x:String>Pontificia Universidad Católica del Ecuador</x:String>
+                            <x:String>Universidad San Francisco de Quito</x:String>
+                            <x:String>Universidad de las Américas</x:String>
+                            <x:String>Universidad Técnica Particular de Loja</x:String>
+                            <x:String>Escuela Politécnica Nacional</x:String>
+                            <x:String>Universidad Tecnológica Equinoccial</x:String>
+                            <x:String>Otra</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </Frame>
+            </VerticalStackLayout>
+
+            
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Contraseña" TextColor="#2C3E50" FontSize="14"/>
+                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                    <Entry x:Name="PasswordEntry"
+                           Placeholder="Mínimo 8 caracteres"
+                           PlaceholderColor="#95A5A6"
+                           TextColor="#2C3E50"
+                           BackgroundColor="Transparent"
+                           IsPassword="True"
+                           Margin="15,0"/>
+                </Frame>
+            </VerticalStackLayout>
+
+            
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Confirmar Contraseña" TextColor="#2C3E50" FontSize="14"/>
+                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                    <Entry x:Name="ConfirmPasswordEntry"
+                           Placeholder="Repite tu contraseña"
+                           PlaceholderColor="#95A5A6"
+                           TextColor="#2C3E50"
+                           BackgroundColor="Transparent"
+                           IsPassword="True"
+                           Margin="15,0"/>
+                </Frame>
+            </VerticalStackLayout>
+
+           
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Tipo de Usuario" TextColor="#2C3E50" FontSize="14" FontAttributes="Bold"/>
+                <StackLayout Orientation="Horizontal" Spacing="20">
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <RadioButton x:Name="PassengerRadio" Content="Pasajero" GroupName="UserType" IsChecked="True" TextColor="#2C3E50"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <RadioButton x:Name="DriverRadio" Content="Conductor" GroupName="UserType" TextColor="#2C3E50"/>
+                    </StackLayout>
+                </StackLayout>
+            </VerticalStackLayout>
+
+            
+            <StackLayout Orientation="Horizontal" Spacing="10">
+                <CheckBox x:Name="TermsCheckBox" Color="#8B0000"/>
+                <Label TextColor="#2C3E50" FontSize="14">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Acepto los "/>
+                            <Span Text="términos y condiciones" TextColor="#8B0000" TextDecorations="Underline"/>
+                            <Span Text=" y la "/>
+                            <Span Text="política de privacidad" TextColor="#8B0000" TextDecorations="Underline"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+
+           
+            <Button x:Name="RegisterButton"
+                    Text="Crear Cuenta"
+                    BackgroundColor="#8B0000"
+                    TextColor="White"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Margin="0,20,0,0"
+                    Clicked="OnRegisterClicked"/>
+
+            
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="5" Margin="0,20,0,0">
+                <Label Text="¿Ya tienes cuenta?" 
+                       TextColor="#2C3E50" 
+                       FontSize="14"/>
+                <Label Text="Inicia sesión"
+                       TextColor="#8B0000"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLoginTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            
+            <ActivityIndicator x:Name="LoadingIndicator" 
+                             IsVisible="False" 
+                             IsRunning="False"
+                             Color="#8B0000"
+                             VerticalOptions="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

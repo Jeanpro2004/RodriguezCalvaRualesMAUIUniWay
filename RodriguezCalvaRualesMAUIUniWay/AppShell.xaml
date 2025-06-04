@@ -3,13 +3,52 @@
     x:Class="RodriguezCalvaRualesMAUIUniWay.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:RodriguezCalvaRualesMAUIUniWay"
+    xmlns:local="clr-namespace:RodriguezCalvaRualesMAUIUniWay.Views"
     Shell.FlyoutBehavior="Disabled"
-    Title="RodriguezCalvaRualesMAUIUniWay">
+    Title="UniWay">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <!-- Pestaña 1: Inicio/Empresa -->
+        <ShellContent
+            Title="Inicio"
+            Icon="home.png"
+            ContentTemplate="{DataTemplate local:HomePage}"
+            Route="HomePage" />
+
+        <!-- Pestaña 2: Login -->
+        <ShellContent
+            Title="Ingresar"
+            Icon="login.png"
+            ContentTemplate="{DataTemplate local:LoginPage}"
+            Route="LoginPage" />
+
+        <!-- Pestaña 3: Registro -->
+        <ShellContent
+            Title="Registro"
+            Icon="register.png"
+            ContentTemplate="{DataTemplate local:RegisterPage}"
+            Route="RegisterPage" />
+
+        <!-- Pestaña 4: Buscar Viaje -->
+        <ShellContent
+            Title="Buscar"
+            Icon="search.png"
+            ContentTemplate="{DataTemplate local:SearchRidePage}"
+            Route="SearchRidePage" />
+
+        <!-- Pestaña 5: Mis Viajes -->
+        <ShellContent
+            Title="Viajes"
+            Icon="car.png"
+            ContentTemplate="{DataTemplate local:MyRidesPage}"
+            Route="MyRidesPage" />
+
+        <!-- Pestaña 6: Perfil -->
+        <ShellContent
+            Title="Perfil"
+            Icon="profile.png"
+            ContentTemplate="{DataTemplate local:ProfilePage}"
+            Route="ProfilePage" />
+    </TabBar>
 
 </Shell>
