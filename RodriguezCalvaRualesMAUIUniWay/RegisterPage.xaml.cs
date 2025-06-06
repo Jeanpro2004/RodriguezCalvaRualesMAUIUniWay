@@ -13,62 +13,79 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
             LoadingIndicator.IsRunning = true;
             RegisterButton.IsEnabled = false;
 
-            try
+            // Validaciones
+            if (!ValidateForm())
             {
-                
-                if (string.IsNullOrWhiteSpace(NameEntry.Text) ||
-                    string.IsNullOrWhiteSpace(EmailEntry.Text) ||
-                    string.IsNullOrWhiteSpace(PhoneEntry.Text) ||
-                    string.IsNullOrWhiteSpace(PasswordEntry.Text) ||
-                    string.IsNullOrWhiteSpace(ConfirmPasswordEntry.Text) ||
-                    UniversityPicker.SelectedIndex == -1)
-                {
-                    await DisplayAlert("Error", "Por favor completa todos los campos", "OK");
-                    return;
-                }
-
-                
-                if (PasswordEntry.Text != ConfirmPasswordEntry.Text)
-                {
-                    await DisplayAlert("Error", "Las contraseñas no coinciden", "OK");
-                    return;
-                }
-
-                
-                if (!TermsCheckBox.IsChecked)
-                {
-                    await DisplayAlert("Error", "Debes aceptar los términos y condiciones", "OK");
-                    return;
-                }
-
-                
-                if (!EmailEntry.Text.Contains("@") || !EmailEntry.Text.EndsWith(".edu.ec"))
-                {
-                    await DisplayAlert("Error", "Ingresa un email universitario válido", "OK");
-                    return;
-                }
-
-                
-                await Task.Delay(2000);
-
-                await DisplayAlert("Éxito", "Cuenta creada exitosamente", "OK");
-                await Shell.Current.GoToAsync("//LoginPage");
+                ResetLoadingState();
+                return;
             }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Error al crear la cuenta: {ex.Message}", "OK");
-            }
-            finally
-            {
-                LoadingIndicator.IsVisible = false;
-                LoadingIndicator.IsRunning = false;
-                RegisterButton.IsEnabled = true;
-            }
+
+            // Simular proceso de registro
+            await Task.Delay(2000);
+
+            await DisplayAlert("Éxito", "¡Cuenta creada exitosamente!", "OK");
+            await Shell.Current.GoToAsync("//LoginPage");
+
+            ResetLoadingState();
         }
 
         private async void OnLoginTapped(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//LoginPage");
+        }
+
+        private bool ValidateForm()
+        {
+            if (string.IsNullOrWhiteSpace(NameEntry.Text))
+            {
+                DisplayAlert("Error", "Por favor ingresa tu nombre completo", "OK");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(EmailEntry.Text))
+            {
+                DisplayAlert("Error", "Por favor ingresa tu email universitario", "OK");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(PhoneEntry.Text))
+            {
+                DisplayAlert("Error", "Por favor ingresa tu número de teléfono", "OK");
+                return false;
+            }
+
+            if (UniversityPicker.SelectedIndex == -1)
+            {
+                DisplayAlert("Error", "Por favor selecciona tu universidad", "OK");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(PasswordEntry.Text) || PasswordEntry.Text.Length < 8)
+            {
+                DisplayAlert("Error", "La contraseña debe tener al menos 8 caracteres", "OK");
+                return false;
+            }
+
+            if (PasswordEntry.Text != ConfirmPasswordEntry.Text)
+            {
+                DisplayAlert("Error", "Las contraseñas no coinciden", "OK");
+                return false;
+            }
+
+            if (!TermsCheckBox.IsChecked)
+            {
+                DisplayAlert("Error", "Debes aceptar los términos y condiciones", "OK");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void ResetLoadingState()
+        {
+            LoadingIndicator.IsVisible = false;
+            LoadingIndicator.IsRunning = false;
+            RegisterButton.IsEnabled = true;
         }
     }
 }
