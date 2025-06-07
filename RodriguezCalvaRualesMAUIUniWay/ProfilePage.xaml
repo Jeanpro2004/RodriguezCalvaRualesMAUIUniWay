@@ -5,26 +5,145 @@
              BackgroundColor="White">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20">
+        <VerticalStackLayout Padding="20" Spacing="20" BackgroundColor="White">
 
-            <Label Text="Mi Perfil" 
-                   FontSize="24" 
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#2C3E50"
-                   Margin="0,20,0,0" />
+            <StackLayout HorizontalOptions="Center" Margin="0,20,0,20">
+                <Label Text="UniWay" 
+                FontSize="28" 
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                TextColor="#8B0000"/>
+                <Label Text="Crear Cuenta" 
+                FontSize="18" 
+                HorizontalOptions="Center"
+                TextColor="#2C3E50"/>
+            </StackLayout>
 
-            <Label Text="Configuración de tu perfil de usuario" 
-                   FontSize="16"
-                   HorizontalOptions="Center"
-                   TextColor="#95A5A6"
-                   HorizontalTextAlignment="Center" />
+
+            <Label Text="Información Personal" 
+            FontSize="16" 
+            FontAttributes="Bold" 
+            TextColor="#2C3E50"/>
+
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Nombre Completo" TextColor="#2C3E50" FontSize="14"/>
+                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                    <Entry x:Name="NameEntry"
+                    Placeholder="Ej: Juan Pérez"
+                    PlaceholderColor="#95A5A6"
+                    TextColor="#2C3E50"
+                    BackgroundColor="Transparent"
+                    Margin="15,0"/>
+                </Frame>
+            </VerticalStackLayout>
+
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Email Universitario" TextColor="#2C3E50" FontSize="14"/>
+                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                    <Entry x:Name="EmailEntry"
+                    Placeholder="nombre@universidad.edu.ec"
+                    PlaceholderColor="#95A5A6"
+                    TextColor="#2C3E50"
+                    BackgroundColor="Transparent"
+                    Keyboard="Email"
+                    Margin="15,0"/>
+                </Frame>
+            </VerticalStackLayout>
+
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Número de Teléfono" TextColor="#2C3E50" FontSize="14"/>
+                <StackLayout Orientation="Horizontal" Spacing="0">
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0" WidthRequest="80">
+                        <Label Text="+593" 
+                        TextColor="#2C3E50" 
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center"
+                        FontSize="16"/>
+                    </Frame>
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0" HorizontalOptions="FillAndExpand">
+                        <Entry x:Name="PhoneEntry"
+                        Placeholder="99 123 4567"
+                        PlaceholderColor="#95A5A6"
+                        TextColor="#2C3E50"
+                        BackgroundColor="Transparent"
+                        Keyboard="Telephone"
+                        Margin="15,0"/>
+                    </Frame>
+                </StackLayout>
+            </VerticalStackLayout>
+
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="ID Banner" TextColor="#2C3E50" FontSize="14"/>
+                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                    <Entry x:Name="IdBannerEntry"
+        Placeholder="Ej: B00123456"
+        PlaceholderColor="#95A5A6"
+        TextColor="#2C3E50"
+        BackgroundColor="Transparent"
+        Margin="15,0"/>
+                </Frame>
+            </VerticalStackLayout>
+
+
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Contraseña" TextColor="#2C3E50" FontSize="14"/>
+                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                    <Entry x:Name="PasswordEntry"
+                    Placeholder="Mínimo 8 caracteres"
+                    PlaceholderColor="#95A5A6"
+                    TextColor="#2C3E50"
+                    BackgroundColor="Transparent"
+                    IsPassword="True"
+                    Margin="15,0"/>
+                </Frame>
+            </VerticalStackLayout>
+
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Confirmar Contraseña" TextColor="#2C3E50" FontSize="14"/>
+                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                    <Entry x:Name="ConfirmPasswordEntry"
+                    Placeholder="Repite tu contraseña"
+                    PlaceholderColor="#95A5A6"
+                    TextColor="#2C3E50"
+                    BackgroundColor="Transparent"
+                    IsPassword="True"
+                    Margin="15,0"/>
+                </Frame>
+            </VerticalStackLayout>
+
+
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Tipo de Usuario" TextColor="#2C3E50" FontSize="14" FontAttributes="Bold"/>
+                <StackLayout Orientation="Horizontal" Spacing="20">
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <RadioButton x:Name="PassengerRadio" Content="Pasajero" GroupName="UserType" IsChecked="True" TextColor="#2C3E50"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <RadioButton x:Name="DriverRadio" Content="Conductor" GroupName="UserType" TextColor="#2C3E50"/>
+                    </StackLayout>
+                </StackLayout>
+            </VerticalStackLayout>
+
+            <Button Text="Actualizar Perfil"
+                    Clicked="OnUpdateClicked"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    CornerRadius="10"
+                    HeightRequest="45"/>
+
+            <Button Text="Eliminar Cuenta"
+                    Clicked="OnDeleteClicked"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="45"/>
 
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
-
-
-
-

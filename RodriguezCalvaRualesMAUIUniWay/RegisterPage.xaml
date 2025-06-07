@@ -76,31 +76,21 @@
                 </StackLayout>
             </VerticalStackLayout>
 
-            
+
             <VerticalStackLayout Spacing="5">
-                <Label Text="Universidad" TextColor="#2C3E50" FontSize="14"/>
+                <Label Text="ID Banner" TextColor="#2C3E50" FontSize="14"/>
                 <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
-                    <Picker x:Name="UniversityPicker"
-                            Title="Selecciona tu universidad"
-                            TitleColor="#95A5A6"
-                            TextColor="#2C3E50"
-                            BackgroundColor="Transparent"
-                            Margin="15,0">
-                        <Picker.Items>
-                            <x:String>Universidad Central del Ecuador</x:String>
-                            <x:String>Pontificia Universidad Católica del Ecuador</x:String>
-                            <x:String>Universidad San Francisco de Quito</x:String>
-                            <x:String>Universidad de las Américas</x:String>
-                            <x:String>Universidad Técnica Particular de Loja</x:String>
-                            <x:String>Escuela Politécnica Nacional</x:String>
-                            <x:String>Universidad Tecnológica Equinoccial</x:String>
-                            <x:String>Otra</x:String>
-                        </Picker.Items>
-                    </Picker>
+                    <Entry x:Name="IdBannerEntry"
+               Placeholder="Ej: B00123456"
+               PlaceholderColor="#95A5A6"
+               TextColor="#2C3E50"
+               BackgroundColor="Transparent"
+               Margin="15,0"/>
                 </Frame>
             </VerticalStackLayout>
 
-            
+
+
             <VerticalStackLayout Spacing="5">
                 <Label Text="Contraseña" TextColor="#2C3E50" FontSize="14"/>
                 <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">

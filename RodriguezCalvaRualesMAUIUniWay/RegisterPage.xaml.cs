@@ -1,3 +1,6 @@
+using System.Net.Http.Json;
+using RodriguezCalvaRualesMAUIUniWay.API;
+
 namespace RodriguezCalvaRualesMAUIUniWay.Views
 {
     public partial class RegisterPage : ContentPage
@@ -20,11 +23,37 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
                 return;
             }
 
-            // Simular proceso de registro
-            await Task.Delay(2000);
+            var user = new Usuario
+            {
+                IdBanner = IdBannerEntry.Text, 
+                Nombre = NameEntry.Text,
+                Correo = EmailEntry.Text,
+                Telefono = "+593" + PhoneEntry.Text.Trim(),
+                Contrasena = PasswordEntry.Text,
+                EsConductor = DriverRadio.IsChecked
+            };
+            try
+            {
+                using var httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri("http://localhost:5113/"); 
 
-            await DisplayAlert("Éxito", "¡Cuenta creada exitosamente!", "OK");
-            await Shell.Current.GoToAsync("//LoginPage");
+                var response = await httpClient.PostAsJsonAsync("api/Usuarios", user);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await DisplayAlert("Éxito", "¡Cuenta creada exitosamente!", "OK");
+                    await Shell.Current.GoToAsync("//LoginPage");
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    await DisplayAlert("Error", $"Error al crear cuenta: {error}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"No se pudo conectar al servidor: {ex.Message}", "OK");
+            }
 
             ResetLoadingState();
         }
@@ -54,9 +83,9 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
                 return false;
             }
 
-            if (UniversityPicker.SelectedIndex == -1)
+            if (string.IsNullOrWhiteSpace(IdBannerEntry.Text))
             {
-                DisplayAlert("Error", "Por favor selecciona tu universidad", "OK");
+                DisplayAlert("Error", "Por favor ingresa tu ID Banner", "OK");
                 return false;
             }
 
@@ -83,6 +112,14 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 
         private void ResetLoadingState()
         {
+            NameEntry.Text = string.Empty;
+            EmailEntry.Text = string.Empty;
+            PhoneEntry.Text = string.Empty;
+            IdBannerEntry.Text = string.Empty;
+            PasswordEntry.Text = string.Empty;
+            ConfirmPasswordEntry.Text = string.Empty;
+            DriverRadio.IsChecked = false;
+            TermsCheckBox.IsChecked = false;
             LoadingIndicator.IsVisible = false;
             LoadingIndicator.IsRunning = false;
             RegisterButton.IsEnabled = true;

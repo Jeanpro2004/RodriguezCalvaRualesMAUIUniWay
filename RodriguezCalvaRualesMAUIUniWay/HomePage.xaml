@@ -86,7 +86,9 @@
                         CornerRadius="25"
                         HeightRequest="50"
                         FontSize="16"
-                        FontAttributes="Bold"/>
+                        FontAttributes="Bold"
+                        Clicked="Button_Clicked"
+                        />
 
                 <Button Text="Registrarse como Conductor"
                         BackgroundColor="Transparent"
@@ -96,7 +98,9 @@
                         CornerRadius="25"
                         HeightRequest="50"
                         FontSize="16"
-                        FontAttributes="Bold"/>
+                        FontAttributes="Bold"
+                        Clicked="Button_Clicked_1"
+                        />
             </VerticalStackLayout>
 
             
