@@ -22,7 +22,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
             };
 
         }
-
+            
         public async Task<List<Usuario>> GetUsuariosAsync()
         {
             return await _httpClient.GetFromJsonAsync<List<Usuario>>("api/usuarios");

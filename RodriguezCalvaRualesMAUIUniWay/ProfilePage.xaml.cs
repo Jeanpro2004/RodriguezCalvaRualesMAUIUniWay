@@ -6,7 +6,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
     {
         private readonly UsuarioService _usuarioService;
         private Usuario _usuario;
-        private int _userId = 2; 
+        private int _userId = 7; 
 
         public ProfilePage()
         {
@@ -22,8 +22,8 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
                 _usuario = await _usuarioService.GetUsuarioByIdAsync(_userId);
                 NameEntry.Text = _usuario.Nombre;
                 EmailEntry.Text = _usuario.Correo;
-                PhoneEntry.Text = _usuario.Telefono.Replace("+593", ""); // Optional formatting
-                PasswordEntry.Text = _usuario.Contrasena; // Consider security implications
+                PhoneEntry.Text = _usuario.Telefono.Replace("+593", ""); 
+                PasswordEntry.Text = _usuario.Contrasena; 
                 IdBannerEntry.Text = _usuario.IdBanner;
                 PassengerRadio.IsChecked = _usuario.EsConductor;
             }
