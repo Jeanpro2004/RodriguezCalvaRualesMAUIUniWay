@@ -23,7 +23,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.ForgotPasswordCommand.CanExecute(null))
             {
-                await (Task)viewModel.ForgotPasswordCommand.Execute(null);
+                viewModel.ForgotPasswordCommand.Execute(null);
             }
         }
 
@@ -31,7 +31,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.NavigateToRegisterCommand.CanExecute(null))
             {
-                await (Task)viewModel.NavigateToRegisterCommand.Execute(null);
+                viewModel.NavigateToRegisterCommand.Execute(null);
             }
         }
 
@@ -39,7 +39,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.LoginCommand.CanExecute(null))
             {
-                await (Task)viewModel.LoginCommand.Execute(null);
+                viewModel.LoginCommand.Execute(null);
             }
         }
 
@@ -47,7 +47,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.ExportLogsCommand.CanExecute(null))
             {
-                await (Task)viewModel.ExportLogsCommand.Execute(null);
+                viewModel.ExportLogsCommand.Execute(null);
             }
         }
 
@@ -55,7 +55,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.ViewLogsCommand.CanExecute(null))
             {
-                await (Task)viewModel.ViewLogsCommand.Execute(null);
+                viewModel.ViewLogsCommand.Execute(null);
             }
         }
     }

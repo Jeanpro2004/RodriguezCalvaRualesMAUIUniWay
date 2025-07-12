@@ -23,7 +23,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             if (BindingContext is ProfileViewModel viewModel)
             {
-                await (Task)viewModel.UpdateProfileCommand.Execute(null);
+                viewModel.UpdateProfileCommand.Execute(null);
             }
         }
 
@@ -31,7 +31,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             if (BindingContext is ProfileViewModel viewModel)
             {
-                await (Task)viewModel.DeleteAccountCommand.Execute(null);
+                viewModel.DeleteAccountCommand.Execute(null);
             }
         }
 
@@ -39,7 +39,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             if (BindingContext is ProfileViewModel viewModel)
             {
-                await (Task)viewModel.ViewLogsCommand.Execute(null);
+                viewModel.ViewLogsCommand.Execute(null);
             }
         }
     }

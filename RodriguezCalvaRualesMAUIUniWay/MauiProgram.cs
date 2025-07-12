@@ -18,8 +18,8 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        // Registrar HttpClient
-        builder.Services.AddHttpClient<IUsuarioService, UsuarioService>();
+        // Registrar HttpClient manualmente (sin extensión)
+        builder.Services.AddSingleton<HttpClient>();
 
         // Registrar servicios principales
         builder.Services.AddSingleton<ILogService, LogService>();
