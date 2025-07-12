@@ -1,78 +1,45 @@
-using RodriguezCalvaRualesMAUIUniWay.API;
+using RodriguezCalvaRualesMAUIUniWay.ViewModels;
 
 namespace RodriguezCalvaRualesMAUIUniWay.Views
 {
     public partial class ProfilePage : ContentPage
     {
-        private readonly UsuarioService _usuarioService;
-        private Usuario _usuario;
-        private int _userId = 7; 
-
-        public ProfilePage()
+        public ProfilePage(ProfileViewModel viewModel)
         {
             InitializeComponent();
-            _usuarioService = new UsuarioService();
-            LoadUserData();
+            BindingContext = viewModel;
         }
 
-        private async void LoadUserData()
+        protected override async void OnAppearing()
         {
-            try
+            base.OnAppearing();
+            if (BindingContext is ProfileViewModel viewModel)
             {
-                _usuario = await _usuarioService.GetUsuarioByIdAsync(_userId);
-                NameEntry.Text = _usuario.Nombre;
-                EmailEntry.Text = _usuario.Correo;
-                PhoneEntry.Text = _usuario.Telefono.Replace("+593", ""); 
-                PasswordEntry.Text = _usuario.Contrasena; 
-                IdBannerEntry.Text = _usuario.IdBanner;
-                PassengerRadio.IsChecked = _usuario.EsConductor;
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"No se pudo cargar el perfil: {ex.Message}", "OK");
+                await viewModel.LoadUserProfile();
             }
         }
 
         private async void OnUpdateClicked(object sender, EventArgs e)
         {
-            try
+            if (BindingContext is ProfileViewModel viewModel)
             {
-                var update = new Usuario
-                {
-                    Id = _userId,
-                    Nombre = NameEntry.Text,
-                    Correo = EmailEntry.Text,
-                    Telefono = "+593" + PhoneEntry.Text,
-                    IdBanner = IdBannerEntry.Text,
-                    Contrasena = PasswordEntry.Text,
-                    EsConductor = DriverRadio.IsChecked
-                };
-
-                await _usuarioService.UpdateUsuarioAsync(_userId, update);
-                await DisplayAlert("Éxito", "Perfil actualizado correctamente", "OK");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"No se pudo actualizar: {ex.Message}", "OK");
+                await (Task)viewModel.UpdateProfileCommand.Execute(null);
             }
         }
 
-
         private async void OnDeleteClicked(object sender, EventArgs e)
         {
-            var confirm = await DisplayAlert("Confirmar", "¿Estás seguro de que deseas eliminar tu cuenta?", "Sí", "Cancelar");
-
-            if (!confirm) return;
-
-            try
+            if (BindingContext is ProfileViewModel viewModel)
             {
-                await _usuarioService.DeleteUsuarioAsync(_userId);
-                await DisplayAlert("Cuenta eliminada", "Tu cuenta ha sido eliminada", "OK");
-                await Shell.Current.GoToAsync("//LoginPage");
+                await (Task)viewModel.DeleteAccountCommand.Execute(null);
             }
-            catch (Exception ex)
+        }
+
+        private async void OnViewLogsClicked(object sender, EventArgs e)
+        {
+            if (BindingContext is ProfileViewModel viewModel)
             {
-                await DisplayAlert("Error", $"No se pudo eliminar: {ex.Message}", "OK");
+                await (Task)viewModel.ViewLogsCommand.Execute(null);
             }
         }
     }

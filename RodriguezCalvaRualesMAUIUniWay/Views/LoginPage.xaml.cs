@@ -1,57 +1,62 @@
+using RodriguezCalvaRualesMAUIUniWay.ViewModels;
+
 namespace RodriguezCalvaRualesMAUIUniWay.Views
 {
     public partial class LoginPage : ContentPage
     {
-        public LoginPage()
+        public LoginPage(EnhancedLoginViewModel viewModel)
         {
             InitializeComponent();
+            BindingContext = viewModel;
         }
 
-        private async void OnLoginClicked(object sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            LoadingIndicator.IsVisible = true;
-            LoadingIndicator.IsRunning = true;
-            LoginButton.IsEnabled = false;
-
-            // Validaciones básicas
-            if (string.IsNullOrWhiteSpace(EmailEntry.Text))
+            base.OnAppearing();
+            if (BindingContext is EnhancedLoginViewModel viewModel)
             {
-                await DisplayAlert("Error", "Por favor ingresa tu email", "OK");
-                ResetLoadingState();
-                return;
+                await viewModel.LoadSavedCredentials();
             }
-
-            if (string.IsNullOrWhiteSpace(PasswordEntry.Text))
-            {
-                await DisplayAlert("Error", "Por favor ingresa tu contraseña", "OK");
-                ResetLoadingState();
-                return;
-            }
-
-            // Simular proceso de login
-            await Task.Delay(2000);
-
-            // Aquí iría la lógica de autenticación real
-            await DisplayAlert("Éxito", "¡Bienvenido a UniWay!", "OK");
-
-            ResetLoadingState();
         }
 
-        private void OnForgotPasswordTapped(object sender, EventArgs e)
+        private async void OnForgotPasswordTapped(object sender, EventArgs e)
         {
-            DisplayAlert("Recuperación", "Función de recuperación de contraseña próximamente", "OK");
+            if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.ForgotPasswordCommand.CanExecute(null))
+            {
+                await (Task)viewModel.ForgotPasswordCommand.Execute(null);
+            }
         }
 
         private async void OnRegisterTapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//RegisterPage");
+            if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.NavigateToRegisterCommand.CanExecute(null))
+            {
+                await (Task)viewModel.NavigateToRegisterCommand.Execute(null);
+            }
         }
 
-        private void ResetLoadingState()
+        private async void OnLoginClicked(object sender, EventArgs e)
         {
-            LoadingIndicator.IsVisible = false;
-            LoadingIndicator.IsRunning = false;
-            LoginButton.IsEnabled = true;
+            if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.LoginCommand.CanExecute(null))
+            {
+                await (Task)viewModel.LoginCommand.Execute(null);
+            }
+        }
+
+        private async void OnExportLogsClicked(object sender, EventArgs e)
+        {
+            if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.ExportLogsCommand.CanExecute(null))
+            {
+                await (Task)viewModel.ExportLogsCommand.Execute(null);
+            }
+        }
+
+        private async void OnViewLogsClicked(object sender, EventArgs e)
+        {
+            if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.ViewLogsCommand.CanExecute(null))
+            {
+                await (Task)viewModel.ViewLogsCommand.Execute(null);
+            }
         }
     }
 }
