@@ -4,43 +4,51 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 {
     public partial class ProfilePage : ContentPage
     {
-        public ProfilePage(ProfileViewModel viewModel)
+        public ProfilePage()
         {
             InitializeComponent();
-            BindingContext = viewModel;
+            BindingContext = new ProfileViewModel();
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            // Recargar datos del usuario al aparecer
             if (BindingContext is ProfileViewModel viewModel)
             {
-                await viewModel.LoadUserProfile();
+                await viewModel.LoadUserData();
             }
         }
 
-        private async void OnUpdateClicked(object sender, EventArgs e)
+        private async void OnExportDataClicked(object sender, EventArgs e)
         {
-            if (BindingContext is ProfileViewModel viewModel)
+            try
             {
-                viewModel.UpdateProfileCommand.Execute(null);
+                if (BindingContext is ProfileViewModel viewModel)
+                {
+                    var confirm = await DisplayAlert("Exportar Datos",
+                        "¿Quieres exportar todos tus datos de UniWay?",
+                        "Exportar", "Cancelar");
+
+                    if (confirm)
+                    {
+                        // Aquí se implementaría la exportación
+                        await DisplayAlert("Exportación",
+                            "Funcionalidad de exportación estará disponible próximamente", "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"Error exportando datos: {ex.Message}", "OK");
             }
         }
 
-        private async void OnDeleteClicked(object sender, EventArgs e)
+        private async void OnViewStatsClicked(object sender, EventArgs e)
         {
-            if (BindingContext is ProfileViewModel viewModel)
-            {
-                viewModel.DeleteAccountCommand.Execute(null);
-            }
-        }
-
-        private async void OnViewLogsClicked(object sender, EventArgs e)
-        {
-            if (BindingContext is ProfileViewModel viewModel)
-            {
-                viewModel.ViewLogsCommand.Execute(null);
-            }
+            await DisplayAlert("Estadísticas",
+                "Panel de estadísticas estará disponible próximamente", "OK");
         }
     }
 }

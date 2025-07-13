@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
-using RodriguezCalvaRualesMAUIUniWay.Services;
+using RodriguezCalvaRualesMAUIUniWay.API;
+using RodriguezCalvaRualesMAUIUniWay.Repositorios;
 using RodriguezCalvaRualesMAUIUniWay.ViewModels;
 using RodriguezCalvaRualesMAUIUniWay.Views;
+using RodriguezCalvaRualesMAUIUniWay.Converters;
+using RodriguezCalvaRualesMAUIUniWay.Services;
 
 namespace RodriguezCalvaRualesMAUIUniWay;
 
@@ -18,29 +21,43 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        // Registrar HttpClient manualmente (sin extensión)
-        builder.Services.AddSingleton<HttpClient>();
-
         // Registrar servicios principales
-        builder.Services.AddSingleton<ILogService, LogService>();
-        builder.Services.AddSingleton<IFileManagementService, FileManagementService>();
-        builder.Services.AddSingleton<IUserSessionService, UserSessionService>();
-        builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+        builder.Services.AddSingleton<UsuarioService>();
+        builder.Services.AddSingleton<ManejoArchivosRepository>();
+        builder.Services.AddSingleton<NotificationService>();
+        builder.Services.AddSingleton<ViajeService>();
+        builder.Services.AddSingleton<AuthenticationService>();
 
-        // Registrar ViewModels mejorados
-        builder.Services.AddTransient<EnhancedLoginViewModel>();
-        builder.Services.AddTransient<EnhancedRegisterViewModel>();
+        // Registrar ViewModels
+        builder.Services.AddTransient<LoginViewModel>();
+        builder.Services.AddTransient<RegisterViewModel>();
         builder.Services.AddTransient<ProfileViewModel>();
+        builder.Services.AddTransient<HomeViewModel>();
+        builder.Services.AddTransient<MyRidesViewModel>();
+        builder.Services.AddTransient<SearchRideViewModel>();
 
-        // Registrar páginas con ViewModels mejorados
+        // Registrar Views
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<RegisterPage>();
         builder.Services.AddTransient<ProfilePage>();
-
-        // Registrar otras páginas existentes
         builder.Services.AddTransient<HomePage>();
-        builder.Services.AddTransient<SearchRidePage>();
         builder.Services.AddTransient<MyRidesPage>();
+        builder.Services.AddTransient<SearchRidePage>();
+
+        // Registrar Converters
+        builder.Services.AddSingleton<InvertedBoolConverter>();
+        builder.Services.AddSingleton<IsNotNullConverter>();
+        builder.Services.AddSingleton<IsNotNullOrEmptyConverter>();
+        builder.Services.AddSingleton<DateTimeToStringConverter>();
+        builder.Services.AddSingleton<BoolToColorConverter>();
+        builder.Services.AddSingleton<StringToColorConverter>();
+        builder.Services.AddSingleton<DecimalToCurrencyConverter>();
+        builder.Services.AddSingleton<TimeSpanToStringConverter>();
+        builder.Services.AddSingleton<IntToStringConverter>();
+        builder.Services.AddSingleton<ListCountToVisibilityConverter>();
+        builder.Services.AddSingleton<StringFormatConverter>();
+        builder.Services.AddSingleton<EnumToStringConverter>();
+        builder.Services.AddSingleton<ValidationErrorConverter>();
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -4,59 +4,27 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 {
     public partial class LoginPage : ContentPage
     {
-        public LoginPage(EnhancedLoginViewModel viewModel)
+        public LoginPage()
         {
             InitializeComponent();
-            BindingContext = viewModel;
+            BindingContext = new LoginViewModel();
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            if (BindingContext is EnhancedLoginViewModel viewModel)
+
+            // Cargar credenciales guardadas si existen
+            if (BindingContext is LoginViewModel viewModel)
             {
-                await viewModel.LoadSavedCredentials();
+                // Las credenciales se cargan automáticamente en el constructor del ViewModel
             }
         }
 
-        private async void OnForgotPasswordTapped(object sender, EventArgs e)
+        protected override bool OnBackButtonPressed()
         {
-            if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.ForgotPasswordCommand.CanExecute(null))
-            {
-                viewModel.ForgotPasswordCommand.Execute(null);
-            }
-        }
-
-        private async void OnRegisterTapped(object sender, EventArgs e)
-        {
-            if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.NavigateToRegisterCommand.CanExecute(null))
-            {
-                viewModel.NavigateToRegisterCommand.Execute(null);
-            }
-        }
-
-        private async void OnLoginClicked(object sender, EventArgs e)
-        {
-            if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.LoginCommand.CanExecute(null))
-            {
-                viewModel.LoginCommand.Execute(null);
-            }
-        }
-
-        private async void OnExportLogsClicked(object sender, EventArgs e)
-        {
-            if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.ExportLogsCommand.CanExecute(null))
-            {
-                viewModel.ExportLogsCommand.Execute(null);
-            }
-        }
-
-        private async void OnViewLogsClicked(object sender, EventArgs e)
-        {
-            if (BindingContext is EnhancedLoginViewModel viewModel && viewModel.ViewLogsCommand.CanExecute(null))
-            {
-                viewModel.ViewLogsCommand.Execute(null);
-            }
+            // Permitir salir de la app desde login
+            return false;
         }
     }
 }

@@ -4,50 +4,20 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 {
     public partial class RegisterPage : ContentPage
     {
-        public RegisterPage(EnhancedRegisterViewModel viewModel)
+        public RegisterPage()
         {
             InitializeComponent();
-            BindingContext = viewModel;
+            BindingContext = new RegisterViewModel();
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (BindingContext is EnhancedRegisterViewModel viewModel)
-            {
-                await viewModel.InitializeAsync();
-            }
-        }
 
-        private async void OnRegisterClicked(object sender, EventArgs e)
-        {
-            if (BindingContext is EnhancedRegisterViewModel viewModel && viewModel.RegisterCommand.CanExecute(null))
+            // Limpiar campos al aparecer (por si vuelve desde login)
+            if (BindingContext is RegisterViewModel viewModel)
             {
-                viewModel.RegisterCommand.Execute(null);
-            }
-        }
-
-        private async void OnLoginTapped(object sender, EventArgs e)
-        {
-            if (BindingContext is EnhancedRegisterViewModel viewModel && viewModel.NavigateToLoginCommand.CanExecute(null))
-            {
-                viewModel.NavigateToLoginCommand.Execute(null);
-            }
-        }
-
-        private async void OnSaveDraftClicked(object sender, EventArgs e)
-        {
-            if (BindingContext is EnhancedRegisterViewModel viewModel && viewModel.SaveDraftCommand.CanExecute(null))
-            {
-                viewModel.SaveDraftCommand.Execute(null);
-            }
-        }
-
-        private async void OnLoadDraftClicked(object sender, EventArgs e)
-        {
-            if (BindingContext is EnhancedRegisterViewModel viewModel && viewModel.LoadDraftCommand.CanExecute(null))
-            {
-                viewModel.LoadDraftCommand.Execute(null);
+                // Los campos se manejan automáticamente por el ViewModel
             }
         }
     }

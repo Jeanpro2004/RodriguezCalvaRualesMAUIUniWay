@@ -2,6 +2,7 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:RodriguezCalvaRualesMAUIUniWay"
+             xmlns:converters="clr-namespace:RodriguezCalvaRualesMAUIUniWay.Converters"
              x:Class="RodriguezCalvaRualesMAUIUniWay.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -9,6 +10,59 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
+            <converters:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+            <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converters:StringToColorConverter x:Key="StringToColorConverter" />
+            <converters:DecimalToCurrencyConverter x:Key="DecimalToCurrencyConverter" />
+            <converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
+            <converters:IntToStringConverter x:Key="IntToStringConverter" />
+            <converters:ListCountToVisibilityConverter x:Key="ListCountToVisibilityConverter" />
+            <converters:StringFormatConverter x:Key="StringFormatConverter" />
+            <converters:EnumToStringConverter x:Key="EnumToStringConverter" />
+            <converters:ValidationErrorConverter x:Key="ValidationErrorConverter" />
+
+            <!-- Global Styles -->
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#8B0000" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="25" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="#8B0000" />
+                <Setter Property="BorderColor" Value="#8B0000" />
+                <Setter Property="BorderWidth" Value="2" />
+                <Setter Property="CornerRadius" Value="25" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style x:Key="EntryFrameStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="#F8F9FA" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="BorderColor" Value="#E0E0E0" />
+            </Style>
+
+            <Style x:Key="CardFrameStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="Padding" Value="20" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Margin" Value="0,5" />
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

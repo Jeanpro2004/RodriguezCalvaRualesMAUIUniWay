@@ -7,30 +7,34 @@
     <ScrollView>
         <VerticalStackLayout Padding="30" Spacing="20">
 
-           
+            <!-- Encabezado -->
             <StackLayout HorizontalOptions="Center" Margin="0,20,0,20">
+                <Image Source="uniway_logo.png" 
+                       HeightRequest="60" 
+                       WidthRequest="60"
+                       Aspect="AspectFit"/>
                 <Label Text="UniWay" 
                        FontSize="28" 
                        FontAttributes="Bold"
                        HorizontalOptions="Center"
                        TextColor="#8B0000"/>
-                <Label Text="Crear Cuenta" 
+                <Label Text="{Binding Title}" 
                        FontSize="18" 
                        HorizontalOptions="Center"
                        TextColor="#2C3E50"/>
             </StackLayout>
 
-            
+            <!-- Información Personal -->
             <Label Text="Información Personal" 
                    FontSize="16" 
                    FontAttributes="Bold" 
                    TextColor="#2C3E50"/>
 
-            
+            <!-- Nombre Completo -->
             <VerticalStackLayout Spacing="5">
-                <Label Text="Nombre Completo" TextColor="#2C3E50" FontSize="14"/>
-                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
-                    <Entry x:Name="NameEntry"
+                <Label Text="Nombre Completo *" TextColor="#2C3E50" FontSize="14"/>
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding Nombre}"
                            Placeholder="Ej: Juan Pérez"
                            PlaceholderColor="#95A5A6"
                            TextColor="#2C3E50"
@@ -39,11 +43,11 @@
                 </Frame>
             </VerticalStackLayout>
 
-            
+            <!-- Email Universitario -->
             <VerticalStackLayout Spacing="5">
-                <Label Text="Email Universitario" TextColor="#2C3E50" FontSize="14"/>
-                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
-                    <Entry x:Name="EmailEntry"
+                <Label Text="Email Universitario *" TextColor="#2C3E50" FontSize="14"/>
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding Email}"
                            Placeholder="nombre@universidad.edu.ec"
                            PlaceholderColor="#95A5A6"
                            TextColor="#2C3E50"
@@ -51,12 +55,15 @@
                            Keyboard="Email"
                            Margin="15,0"/>
                 </Frame>
+                <Label Text="💡 Solo se aceptan emails universitarios (.edu.ec)" 
+                       FontSize="12" 
+                       TextColor="#7F8C8D"/>
             </VerticalStackLayout>
 
-           
+            <!-- Número de Teléfono -->
             <VerticalStackLayout Spacing="5">
-                <Label Text="Número de Teléfono" TextColor="#2C3E50" FontSize="14"/>
-                <StackLayout Orientation="Horizontal" Spacing="0">
+                <Label Text="Número de Teléfono *" TextColor="#2C3E50" FontSize="14"/>
+                <StackLayout Orientation="Horizontal" Spacing="5">
                     <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0" WidthRequest="80">
                         <Label Text="+593" 
                                TextColor="#2C3E50" 
@@ -64,37 +71,41 @@
                                HorizontalOptions="Center"
                                FontSize="16"/>
                     </Frame>
-                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0" HorizontalOptions="FillAndExpand">
-                        <Entry x:Name="PhoneEntry"
+                    <Frame Style="{StaticResource EntryFrameStyle}" HorizontalOptions="FillAndExpand">
+                        <Entry Text="{Binding Telefono}"
                                Placeholder="99 123 4567"
                                PlaceholderColor="#95A5A6"
                                TextColor="#2C3E50"
                                BackgroundColor="Transparent"
                                Keyboard="Telephone"
+                               MaxLength="9"
                                Margin="15,0"/>
                     </Frame>
                 </StackLayout>
             </VerticalStackLayout>
 
-
+            <!-- ID Banner -->
             <VerticalStackLayout Spacing="5">
-                <Label Text="ID Banner" TextColor="#2C3E50" FontSize="14"/>
-                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
-                    <Entry x:Name="IdBannerEntry"
-               Placeholder="Ej: B00123456"
-               PlaceholderColor="#95A5A6"
-               TextColor="#2C3E50"
-               BackgroundColor="Transparent"
-               Margin="15,0"/>
+                <Label Text="ID Banner *" TextColor="#2C3E50" FontSize="14"/>
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding IdBanner}"
+                           Placeholder="Ej: B00123456"
+                           PlaceholderColor="#95A5A6"
+                           TextColor="#2C3E50"
+                           BackgroundColor="Transparent"
+                           MaxLength="9"
+                           Margin="15,0"/>
                 </Frame>
+                <Label Text="💡 Tu ID Banner universitario (B + 8 dígitos)" 
+                       FontSize="12" 
+                       TextColor="#7F8C8D"/>
             </VerticalStackLayout>
 
-
-
+            <!-- Contraseña -->
             <VerticalStackLayout Spacing="5">
-                <Label Text="Contraseña" TextColor="#2C3E50" FontSize="14"/>
-                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
-                    <Entry x:Name="PasswordEntry"
+                <Label Text="Contraseña *" TextColor="#2C3E50" FontSize="14"/>
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding Password}"
                            Placeholder="Mínimo 8 caracteres"
                            PlaceholderColor="#95A5A6"
                            TextColor="#2C3E50"
@@ -104,11 +115,11 @@
                 </Frame>
             </VerticalStackLayout>
 
-            
+            <!-- Confirmar Contraseña -->
             <VerticalStackLayout Spacing="5">
-                <Label Text="Confirmar Contraseña" TextColor="#2C3E50" FontSize="14"/>
-                <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
-                    <Entry x:Name="ConfirmPasswordEntry"
+                <Label Text="Confirmar Contraseña *" TextColor="#2C3E50" FontSize="14"/>
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding ConfirmPassword}"
                            Placeholder="Repite tu contraseña"
                            PlaceholderColor="#95A5A6"
                            TextColor="#2C3E50"
@@ -118,47 +129,55 @@
                 </Frame>
             </VerticalStackLayout>
 
-           
+            <!-- Tipo de Usuario -->
             <VerticalStackLayout Spacing="10">
                 <Label Text="Tipo de Usuario" TextColor="#2C3E50" FontSize="14" FontAttributes="Bold"/>
-                <StackLayout Orientation="Horizontal" Spacing="20">
-                    <StackLayout Orientation="Horizontal" Spacing="5">
-                        <RadioButton x:Name="PassengerRadio" Content="Pasajero" GroupName="UserType" IsChecked="True" TextColor="#2C3E50"/>
+                <Frame BackgroundColor="#F0F8FF" CornerRadius="10" Padding="15">
+                    <StackLayout Orientation="Horizontal" Spacing="30">
+                        <StackLayout Orientation="Horizontal" Spacing="5">
+                            <RadioButton Content="🚶 Pasajero" 
+                                        GroupName="UserType" 
+                                        IsChecked="{Binding IsDriver, Converter={StaticResource InvertedBoolConverter}}" 
+                                        TextColor="#2C3E50"
+                                        FontSize="16"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" Spacing="5">
+                            <RadioButton Content="🚗 Conductor" 
+                                        GroupName="UserType" 
+                                        IsChecked="{Binding IsDriver}" 
+                                        TextColor="#2C3E50"
+                                        FontSize="16"/>
+                        </StackLayout>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal" Spacing="5">
-                        <RadioButton x:Name="DriverRadio" Content="Conductor" GroupName="UserType" TextColor="#2C3E50"/>
-                    </StackLayout>
-                </StackLayout>
+                </Frame>
             </VerticalStackLayout>
 
-            
-            <StackLayout Orientation="Horizontal" Spacing="10">
-                <CheckBox x:Name="TermsCheckBox" Color="#8B0000"/>
-                <Label TextColor="#2C3E50" FontSize="14">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Acepto los "/>
-                            <Span Text="términos y condiciones" TextColor="#8B0000" TextDecorations="Underline"/>
-                            <Span Text=" y la "/>
-                            <Span Text="política de privacidad" TextColor="#8B0000" TextDecorations="Underline"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </StackLayout>
+            <!-- Términos y Condiciones -->
+            <Frame BackgroundColor="#FFF9E6" CornerRadius="10" Padding="15">
+                <StackLayout Orientation="Horizontal" Spacing="10">
+                    <CheckBox IsChecked="{Binding AcceptTerms}" Color="#8B0000" VerticalOptions="Start"/>
+                    <Label TextColor="#2C3E50" FontSize="14" HorizontalOptions="FillAndExpand">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Acepto los "/>
+                                <Span Text="términos y condiciones" TextColor="#8B0000" TextDecorations="Underline"/>
+                                <Span Text=" y la "/>
+                                <Span Text="política de privacidad" TextColor="#8B0000" TextDecorations="Underline"/>
+                                <Span Text=" de UniWay"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </Frame>
 
-           
-            <Button x:Name="RegisterButton"
-                    Text="Crear Cuenta"
-                    BackgroundColor="#8B0000"
-                    TextColor="White"
-                    CornerRadius="25"
-                    HeightRequest="50"
-                    FontSize="16"
-                    FontAttributes="Bold"
-                    Margin="0,20,0,0"
-                    Clicked="OnRegisterClicked"/>
+            <!-- Botón Registro -->
+            <Button Text="Crear Mi Cuenta"
+                    Command="{Binding RegisterCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Margin="0,20,0,0"/>
 
-            
+            <!-- Link a Login -->
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="5" Margin="0,20,0,0">
                 <Label Text="¿Ya tienes cuenta?" 
                        TextColor="#2C3E50" 
@@ -169,19 +188,166 @@
                        FontAttributes="Bold"
                        TextDecorations="Underline">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnLoginTapped"/>
+                        <TapGestureRecognizer Command="{Binding LoginCommand}"/>
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
 
-            
-            <ActivityIndicator x:Name="LoadingIndicator" 
-                             IsVisible="False" 
-                             IsRunning="False"
+            <!-- Indicador de carga -->
+            <ActivityIndicator IsVisible="{Binding IsBusy}" 
+                             IsRunning="{Binding IsBusy}"
                              Color="#8B0000"
                              VerticalOptions="Center"/>
 
         </VerticalStackLayout>
     </ScrollView>
+
+</ContentPage> "/>
+<Label Text="UniWay" 
+                       FontSize="32" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="#8B0000"/>
+</StackLayout>
+
+<!-- Mensaje de Bienvenida Dinámico -->
+<Frame BackgroundColor="#F8F9FA" 
+                   CornerRadius="15"
+                   HasShadow="True"
+                   Padding="20">
+    <VerticalStackLayout Spacing="15">
+        <Label Text="{Binding WelcomeMessage}" 
+                           FontSize="24" 
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#2C3E50"/>
+
+        <Label Text="Tu plataforma de confianza para compartir viajes universitarios de manera segura y económica."
+                           FontSize="16"
+                           TextColor="#34495E"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource InvertedBoolConverter}}"/>
+
+        <!-- Estado de Usuario Logueado -->
+        <StackLayout IsVisible="{Binding IsUserLoggedIn}" Spacing="10">
+            <Label Text="🎯 ¿Qué quieres hacer hoy?" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="#2C3E50"/>
+            <Label Text="Selecciona una opción para comenzar tu viaje"
+                               FontSize="14"
+                               TextColor="#7F8C8D"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+        </StackLayout>
+    </VerticalStackLayout>
+</Frame>
+
+<!-- Características de UniWay -->
+<VerticalStackLayout Spacing="15" IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource InvertedBoolConverter}}">
+    <Label Text="¿Por qué elegir UniWay?" 
+                       FontSize="20" 
+                       FontAttributes="Bold"
+                       TextColor="#2C3E50"/>
+
+    <Frame BackgroundColor="#E8F5E8" CornerRadius="10" Padding="15">
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Label Text="🚗" FontSize="24"/>
+            <VerticalStackLayout>
+                <Label Text="Viajes Seguros" FontAttributes="Bold" TextColor="#27AE60"/>
+                <Label Text="Conductores verificados y valorados por la comunidad" TextColor="#2C3E50" FontSize="14"/>
+            </VerticalStackLayout>
+        </StackLayout>
+    </Frame>
+
+    <Frame BackgroundColor="#E8F4FD" CornerRadius="10" Padding="15">
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Label Text="💰" FontSize="24"/>
+            <VerticalStackLayout>
+                <Label Text="Económico" FontAttributes="Bold" TextColor="#3498DB"/>
+                <Label Text="Comparte gastos de combustible y peajes" TextColor="#2C3E50" FontSize="14"/>
+            </VerticalStackLayout>
+        </StackLayout>
+    </Frame>
+
+    <Frame BackgroundColor="#FFF3E0" CornerRadius="10" Padding="15">
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Label Text="🎓" FontSize="24"/>
+            <VerticalStackLayout>
+                <Label Text="Solo Universitarios" FontAttributes="Bold" TextColor="#FF9800"/>
+                <Label Text="Comunidad exclusiva para estudiantes universitarios" TextColor="#2C3E50" FontSize="14"/>
+            </VerticalStackLayout>
+        </StackLayout>
+    </Frame>
+</VerticalStackLayout>
+
+<!-- Botones de Acción -->
+<VerticalStackLayout Spacing="15" Margin="0,20,0,0">
+
+    <!-- Botones para usuarios no logueados -->
+    <VerticalStackLayout Spacing="15" IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource InvertedBoolConverter}}">
+        <Button Text="Comenzar como Pasajero"
+                            Command="{Binding StartAsPassengerCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}"/>
+
+        <Button Text="Registrarse como Conductor"
+                            Command="{Binding StartAsDriverCommand}"
+                            Style="{StaticResource SecondaryButtonStyle}"/>
+    </VerticalStackLayout>
+
+    <!-- Botones para usuarios logueados -->
+    <VerticalStackLayout Spacing="15" IsVisible="{Binding IsUserLoggedIn}">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button Grid.Column="0"
+                                Text="🔍 Buscar Viajes"
+                                Command="{Binding StartAsPassengerCommand}"
+                                BackgroundColor="#3498DB"
+                                TextColor="White"
+                                CornerRadius="15"
+                                HeightRequest="60"
+                                FontSize="14"
+                                FontAttributes="Bold"/>
+
+            <Button Grid.Column="1"
+                                Text="🚗 Mis Viajes"
+                                Command="{Binding StartAsDriverCommand}"
+                                BackgroundColor="#27AE60"
+                                TextColor="White"
+                                CornerRadius="15"
+                                HeightRequest="60"
+                                FontSize="14"
+                                FontAttributes="Bold"/>
+        </Grid>
+
+        <Button Text="👤 Ver Mi Perfil"
+                            Clicked="OnProfileClicked"
+                            BackgroundColor="#95A5A6"
+                            TextColor="White"
+                            CornerRadius="20"
+                            HeightRequest="45"
+                            FontSize="16"/>
+    </VerticalStackLayout>
+</VerticalStackLayout>
+
+<!-- Información de Contacto -->
+<Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="15" Margin="0,20,0,0">
+    <VerticalStackLayout Spacing="10">
+        <Label Text="Contacto" FontAttributes="Bold" FontSize="16" TextColor="#2C3E50"/>
+        <Label Text="📧 soporte@uniway.com" TextColor="#34495E"/>
+        <Label Text="📱 +593 99 123 4567" TextColor="#34495E"/>
+        <Label Text="🌐 www.uniway.com" TextColor="#34495E"/>
+    </VerticalStackLayout>
+</Frame>
+
+<!-- Indicador de carga -->
+<ActivityIndicator IsVisible="{Binding IsBusy}" 
+                             IsRunning="{Binding IsBusy}"
+                             Color="#8B0000"
+                             VerticalOptions="Center"/>
+
+</VerticalStackLayout>
+</ScrollView>
 
 </ContentPage>

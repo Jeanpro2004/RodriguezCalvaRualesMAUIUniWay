@@ -7,33 +7,468 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
 
-            <Label Text="Mis Viajes" 
-                   FontSize="24" 
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#2C3E50"
-                   Margin="0,20,0,0" />
+            <!-- Encabezado -->
+            <StackLayout HorizontalOptions="Center" Margin="0,20,0,10">
+                <Label Text="🚗 {Binding Title}" 
+                       FontSize="24" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="#2C3E50"/>
+                <Label Text="Gestiona todos tus viajes desde aquí" 
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       TextColor="#7F8C8D"/>
+            </StackLayout>
 
-            <Label Text="Aquí verás todos tus viajes programados y historial" 
-                   FontSize="16"
-                   HorizontalOptions="Center"
-                   TextColor="#95A5A6"
-                   HorizontalTextAlignment="Center" />
+            <!-- Información del Usuario -->
+            <Frame BackgroundColor="#E8F5E8" CornerRadius="15" Padding="20" HasShadow="True" 
+                   IsVisible="{Binding UsuarioActual, Converter={StaticResource IsNotNullConverter}}">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                    <!-- Avatar -->
+                    <Frame Grid.Column="0" 
+                           BackgroundColor="#27AE60" 
+                           CornerRadius="25" 
+                           WidthRequest="50" 
+                           HeightRequest="50" 
+                           Padding="0">
+                        <Label Text="{Binding UsuarioActual.EsConductor, StringFormat='{0}', Converter={StaticResource BoolToEmojiConverter}}" 
+                               FontSize="24" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"/>
+                    </Frame>
 
-            <Frame BackgroundColor="#F8F9FA" CornerRadius="15" Padding="20" HasShadow="True">
+                    <!-- Info Usuario -->
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="3">
+                        <Label Text="{Binding UsuarioActual.Nombre}" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               TextColor="#27AE60"/>
+                        <Label Text="{Binding UsuarioActual.EsConductor, StringFormat='{0}', Converter={StaticResource BoolToUserTypeConverter}}" 
+                               FontSize="14" 
+                               TextColor="#2C3E50"/>
+                    </VerticalStackLayout>
+
+                    <!-- Estadísticas -->
+                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="End" Spacing="3">
+                        <Label Text="⭐ 4.8" 
+                               FontSize="12" 
+                               FontAttributes="Bold"
+                               TextColor="#FF9800"
+                               HorizontalOptions="End"/>
+                        <Label Text="15 viajes" 
+                               FontSize="11" 
+                               TextColor="#7F8C8D"
+                               HorizontalOptions="End"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Frame>
+
+            <!-- Botones de Acción Rápida -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Button Grid.Column="0"
+                        Text="🔄 Actualizar"
+                        Command="{Binding RefreshCommand}"
+                        BackgroundColor="#3498DB"
+                        TextColor="White"
+                        CornerRadius="20"
+                        HeightRequest="45"
+                        FontSize="14"/>
+
+                <Button Grid.Column="1"
+                        Text="➕ Crear Viaje"
+                        Command="{Binding CreateRideCommand}"
+                        BackgroundColor="#27AE60"
+                        TextColor="White"
+                        CornerRadius="20"
+                        HeightRequest="45"
+                        FontSize="14"
+                        IsVisible="{Binding UsuarioActual.EsConductor}"/>
+
+                <Button Grid.Column="1"
+                        Text="🔍 Buscar Viajes"
+                        Clicked="OnSearchRidesClicked"
+                        BackgroundColor="#FF9800"
+                        TextColor="White"
+                        CornerRadius="20"
+                        HeightRequest="45"
+                        FontSize="14"
+                        IsVisible="{Binding UsuarioActual.EsConductor, Converter={StaticResource InvertedBoolConverter}}"/>
+            </Grid>
+
+            <!-- Sección para Conductores -->
+            <VerticalStackLayout Spacing="15" IsVisible="{Binding UsuarioActual.EsConductor}">
+
+                <!-- Encabezado Conductor -->
+                <Frame BackgroundColor="#F0F8FF" CornerRadius="10" Padding="15">
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Label Text="🚗" FontSize="20"/>
+                        <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                            <Label Text="Panel de Conductor" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="#2C3E50"/>
+                            <Label Text="Gestiona tus viajes como conductor" 
+                                   FontSize="12" 
+                                   TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Button Text="📊"
+                                Clicked="OnEarningsClicked"
+                                BackgroundColor="#3498DB"
+                                TextColor="White"
+                                CornerRadius="15"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                FontSize="16"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Lista de Viajes del Conductor -->
+                <CollectionView ItemsSource="{Binding MisViajes}" 
+                               EmptyView="No tienes viajes creados">
+                    <CollectionView.EmptyViewTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="#F8F9FA" CornerRadius="15" Padding="30" Margin="0,20">
+                                <VerticalStackLayout Spacing="15" HorizontalOptions="Center">
+                                    <Label Text="🚗" FontSize="48" HorizontalOptions="Center"/>
+                                    <Label Text="¡Crea tu primer viaje!" 
+                                           FontSize="18" 
+                                           FontAttributes="Bold"
+                                           TextColor="#2C3E50"
+                                           HorizontalOptions="Center"/>
+                                    <Label Text="Comparte tu ruta y ayuda a otros estudiantes" 
+                                           FontSize="14"
+                                           TextColor="#7F8C8D"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"/>
+                                    <Button Text="Crear Viaje"
+                                            Command="{Binding CreateRideCommand}"
+                                            Style="{StaticResource PrimaryButtonStyle}"
+                                            HeightRequest="40"
+                                            Margin="0,10,0,0"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.EmptyViewTemplate>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0,5">
+                                <Frame BackgroundColor="#F0F8FF" CornerRadius="15" Padding="20" HasShadow="True">
+                                    <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+
+                                        <!-- Header del Viaje -->
+                                        <StackLayout Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="10">
+                                            <Frame BackgroundColor="#3498DB" CornerRadius="15" Padding="8,4" HasShadow="False">
+                                                <Label Text="{Binding Estado}" 
+                                                       FontSize="10" 
+                                                       FontAttributes="Bold"
+                                                       TextColor="White"/>
+                                            </Frame>
+                                            <Label Text="{Binding FechaFormateada}" 
+                                                   FontSize="12" 
+                                                   TextColor="#7F8C8D"
+                                                   VerticalOptions="Center"/>
+                                            <Label Text="{Binding HoraFormateada}" 
+                                                   FontSize="12" 
+                                                   FontAttributes="Bold"
+                                                   TextColor="#2C3E50"
+                                                   VerticalOptions="Center"/>
+                                        </StackLayout>
+
+                                        <!-- Ruta -->
+                                        <Label Grid.Row="1" Grid.ColumnSpan="2"
+                                               Text="{Binding RutaCompleta}" 
+                                               FontSize="16"
+                                               FontAttributes="Bold" 
+                                               TextColor="#2C3E50"
+                                               Margin="0,10,0,5"/>
+
+                                        <!-- Detalles -->
+                                        <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Spacing="20">
+                                            <StackLayout Orientation="Horizontal" Spacing="5">
+                                                <Label Text="🪑" FontSize="14"/>
+                                                <Label Text="{Binding EspaciosDisponibles, StringFormat='{0} disponibles'}" 
+                                                       FontSize="12" 
+                                                       TextColor="#7F8C8D"/>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal" Spacing="5">
+                                                <Label Text="👥" FontSize="14"/>
+                                                <Label Text="{Binding Pasajeros.Count, StringFormat='{0} reservados'}" 
+                                                       FontSize="12" 
+                                                       TextColor="#7F8C8D"/>
+                                            </StackLayout>
+                                        </StackLayout>
+
+                                        <!-- Precio -->
+                                        <Label Grid.Row="2" Grid.Column="1"
+                                               Text="{Binding PrecioFormateado}" 
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="#27AE60"
+                                               HorizontalOptions="End"
+                                               VerticalOptions="Center"/>
+
+                                        <!-- Botones de Acción -->
+                                        <StackLayout Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="10" Margin="0,15,0,0">
+                                            <Button Text="👥 Pasajeros"
+                                                    BackgroundColor="#3498DB"
+                                                    TextColor="White"
+                                                    CornerRadius="15"
+                                                    HeightRequest="35"
+                                                    FontSize="12"
+                                                    HorizontalOptions="FillAndExpand"/>
+
+                                            <Button Text="✏️ Editar"
+                                                    BackgroundColor="#F39C12"
+                                                    TextColor="White"
+                                                    CornerRadius="15"
+                                                    HeightRequest="35"
+                                                    FontSize="12"
+                                                    HorizontalOptions="FillAndExpand"/>
+
+                                            <Button Text="❌ Cancelar"
+                                                    BackgroundColor="#E74C3C"
+                                                    TextColor="White"
+                                                    CornerRadius="15"
+                                                    HeightRequest="35"
+                                                    FontSize="12"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    Clicked="OnCancelRideClicked"/>
+                                        </StackLayout>
+                                    </Grid>
+
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnRideItemTapped"/>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- Sección para Pasajeros -->
+            <VerticalStackLayout Spacing="15" IsVisible="{Binding UsuarioActual.EsConductor, Converter={StaticResource InvertedBoolConverter}}">
+
+                <!-- Encabezado Pasajero -->
+                <Frame BackgroundColor="#FFF3E0" CornerRadius="10" Padding="15">
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Label Text="🚶" FontSize="20"/>
+                        <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                            <Label Text="Panel de Pasajero" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="#2C3E50"/>
+                            <Label Text="Encuentra y reserva viajes disponibles" 
+                                   FontSize="12" 
+                                   TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Button Text="📈"
+                                Clicked="OnRideHistoryClicked"
+                                BackgroundColor="#FF9800"
+                                TextColor="White"
+                                CornerRadius="15"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                FontSize="16"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Lista de Viajes Disponibles -->
+                <CollectionView ItemsSource="{Binding ViajesDisponibles}" 
+                               EmptyView="No hay viajes disponibles">
+                    <CollectionView.EmptyViewTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="#F8F9FA" CornerRadius="15" Padding="30" Margin="0,20">
+                                <VerticalStackLayout Spacing="15" HorizontalOptions="Center">
+                                    <Label Text="🔍" FontSize="48" HorizontalOptions="Center"/>
+                                    <Label Text="No hay viajes disponibles" 
+                                           FontSize="18" 
+                                           FontAttributes="Bold"
+                                           TextColor="#2C3E50"
+                                           HorizontalOptions="Center"/>
+                                    <Label Text="Intenta buscar en diferentes fechas o rutas" 
+                                           FontSize="14"
+                                           TextColor="#7F8C8D"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"/>
+                                    <Button Text="Buscar Viajes"
+                                            Clicked="OnSearchRidesClicked"
+                                            Style="{StaticResource PrimaryButtonStyle}"
+                                            HeightRequest="40"
+                                            Margin="0,10,0,0"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.EmptyViewTemplate>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0,5">
+                                <Frame BackgroundColor="#FFF9E6" CornerRadius="15" Padding="20" HasShadow="True">
+                                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+
+                                        <!-- Header del Viaje -->
+                                        <StackLayout Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="10">
+                                            <Frame BackgroundColor="#FF9800" CornerRadius="15" Padding="8,4" HasShadow="False">
+                                                <Label Text="{Binding Estado}" 
+                                                       FontSize="10" 
+                                                       FontAttributes="Bold"
+                                                       TextColor="White"/>
+                                            </Frame>
+                                            <Label Text="{Binding FechaFormateada}" 
+                                                   FontSize="12" 
+                                                   TextColor="#7F8C8D"
+                                                   VerticalOptions="Center"/>
+                                            <Label Text="{Binding HoraFormateada}" 
+                                                   FontSize="12" 
+                                                   FontAttributes="Bold"
+                                                   TextColor="#2C3E50"
+                                                   VerticalOptions="Center"/>
+                                        </StackLayout>
+
+                                        <!-- Ruta -->
+                                        <Label Grid.Row="1" Grid.ColumnSpan="2"
+                                               Text="{Binding RutaCompleta}" 
+                                               FontSize="16"
+                                               FontAttributes="Bold" 
+                                               TextColor="#2C3E50"
+                                               Margin="0,10,0,5"/>
+
+                                        <!-- Conductor -->
+                                        <StackLayout Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="10" Margin="0,5">
+                                            <Frame BackgroundColor="#E8F5E8" CornerRadius="20" Padding="8,4" HasShadow="False">
+                                                <StackLayout Orientation="Horizontal" Spacing="5">
+                                                    <Label Text="👨‍💼" FontSize="12"/>
+                                                    <Label Text="{Binding Conductor}" 
+                                                           FontSize="12" 
+                                                           FontAttributes="Bold"
+                                                           TextColor="#27AE60"/>
+                                                </StackLayout>
+                                            </Frame>
+
+                                            <Frame BackgroundColor="#FFF3E0" CornerRadius="20" Padding="8,4" HasShadow="False">
+                                                <StackLayout Orientation="Horizontal" Spacing="5">
+                                                    <Label Text="⭐" FontSize="12"/>
+                                                    <Label Text="4.8" 
+                                                           FontSize="12" 
+                                                           FontAttributes="Bold"
+                                                           TextColor="#FF9800"/>
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+
+                                        <!-- Detalles -->
+                                        <StackLayout Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Spacing="20">
+                                            <StackLayout Orientation="Horizontal" Spacing="5">
+                                                <Label Text="🪑" FontSize="14"/>
+                                                <Label Text="{Binding EspaciosDisponibles, StringFormat='{0} disponibles'}" 
+                                                       FontSize="12" 
+                                                       TextColor="#7F8C8D"/>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal" Spacing="5">
+                                                <Label Text="🚗" FontSize="14"/>
+                                                <Label Text="Toyota Corolla" 
+                                                       FontSize="12" 
+                                                       TextColor="#7F8C8D"/>
+                                            </StackLayout>
+                                        </StackLayout>
+
+                                        <!-- Precio -->
+                                        <Label Grid.Row="3" Grid.Column="1"
+                                               Text="{Binding PrecioFormateado}" 
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="#FF9800"
+                                               HorizontalOptions="End"
+                                               VerticalOptions="Center"/>
+
+                                        <!-- Botones de Acción -->
+                                        <StackLayout Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="10" Margin="0,15,0,0">
+                                            <Button Text="💬 Contactar"
+                                                    BackgroundColor="#3498DB"
+                                                    TextColor="White"
+                                                    CornerRadius="15"
+                                                    HeightRequest="35"
+                                                    FontSize="12"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    Clicked="OnContactDriverClicked"/>
+
+                                            <Button Text="ℹ️ Detalles"
+                                                    BackgroundColor="#95A5A6"
+                                                    TextColor="White"
+                                                    CornerRadius="15"
+                                                    HeightRequest="35"
+                                                    FontSize="12"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    Tapped="OnRideItemTapped"/>
+
+                                            <Button Text="📝 Reservar"
+                                                    BackgroundColor="#27AE60"
+                                                    TextColor="White"
+                                                    CornerRadius="15"
+                                                    HeightRequest="35"
+                                                    FontSize="12"
+                                                    FontAttributes="Bold"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    Clicked="OnReserveRideClicked"/>
+                                        </StackLayout>
+                                    </Grid>
+
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnRideItemTapped"/>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- Mensaje cuando no hay datos -->
+            <Frame BackgroundColor="#F8F9FA" CornerRadius="15" Padding="20" HasShadow="True"
+                   IsVisible="{Binding HasRides, Converter={StaticResource InvertedBoolConverter}}">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="Próximamente" 
+                    <Label Text="🚗📱" 
+                           FontSize="36" 
+                           HorizontalOptions="Center"/>
+                    <Label Text="¡Bienvenido a UniWay!" 
                            FontSize="18" 
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#2C3E50"/>
-                    <Label Text="Esta sección mostrará tus viajes activos y el historial completo." 
+                    <Label Text="Aquí podrás gestionar todos tus viajes, ya sea como conductor o pasajero." 
                            FontSize="14"
                            HorizontalOptions="Center"
                            TextColor="#95A5A6"
                            HorizontalTextAlignment="Center"/>
+
+                    <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="Center" Margin="0,10,0,0">
+                        <Button Text="🔍 Buscar Viajes"
+                                Clicked="OnSearchRidesClicked"
+                                BackgroundColor="#3498DB"
+                                TextColor="White"
+                                CornerRadius="20"
+                                HeightRequest="40"
+                                FontSize="12"/>
+
+                        <Button Text="➕ Crear Viaje"
+                                Command="{Binding CreateRideCommand}"
+                                BackgroundColor="#27AE60"
+                                TextColor="White"
+                                CornerRadius="20"
+                                HeightRequest="40"
+                                FontSize="12"
+                                IsVisible="{Binding UsuarioActual.EsConductor}"/>
+                    </StackLayout>
                 </VerticalStackLayout>
             </Frame>
+
+            <!-- Indicador de carga -->
+            <ActivityIndicator IsVisible="{Binding IsBusy}" 
+                             IsRunning="{Binding IsBusy}"
+                             Color="#8B0000"
+                             VerticalOptions="Center"/>
 
         </VerticalStackLayout>
     </ScrollView>

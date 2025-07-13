@@ -7,7 +7,7 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="30">
 
-            
+            <!-- Logo y Título -->
             <StackLayout HorizontalOptions="Center" VerticalOptions="Start" Margin="0,40,0,0">
                 <Image Source="uniway_logo.png" 
                        HeightRequest="80" 
@@ -20,13 +20,13 @@
                        TextColor="#8B0000"/>
             </StackLayout>
 
-            
+            <!-- Mensaje de Bienvenida Dinámico -->
             <Frame BackgroundColor="#F8F9FA" 
                    CornerRadius="15"
                    HasShadow="True"
                    Padding="20">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="¡Bienvenido a UniWay!" 
+                    <Label Text="{Binding WelcomeMessage}" 
                            FontSize="24" 
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
@@ -36,12 +36,27 @@
                            FontSize="16"
                            TextColor="#34495E"
                            HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center"
+                           IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource InvertedBoolConverter}}"/>
+
+                    <!-- Estado de Usuario Logueado -->
+                    <StackLayout IsVisible="{Binding IsUserLoggedIn}" Spacing="10">
+                        <Label Text="🎯 ¿Qué quieres hacer hoy?" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="#2C3E50"/>
+                        <Label Text="Selecciona una opción para comenzar tu viaje"
+                               FontSize="14"
+                               TextColor="#7F8C8D"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </StackLayout>
                 </VerticalStackLayout>
             </Frame>
 
-            
-            <VerticalStackLayout Spacing="15">
+            <!-- Características de UniWay -->
+            <VerticalStackLayout Spacing="15" IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource InvertedBoolConverter}}">
                 <Label Text="¿Por qué elegir UniWay?" 
                        FontSize="20" 
                        FontAttributes="Bold"
@@ -78,39 +93,69 @@
                 </Frame>
             </VerticalStackLayout>
 
-           
+            <!-- Botones de Acción -->
             <VerticalStackLayout Spacing="15" Margin="0,20,0,0">
-                <Button Text="Comenzar como Pasajero"
-                        BackgroundColor="#8B0000"
-                        TextColor="White"
-                        CornerRadius="25"
-                        HeightRequest="50"
-                        FontSize="16"
-                        FontAttributes="Bold"
-                        Clicked="Button_Clicked"
-                        />
 
-                <Button Text="Registrarse como Conductor"
-                        BackgroundColor="Transparent"
-                        TextColor="#8B0000"
-                        BorderColor="#8B0000"
-                        BorderWidth="2"
-                        CornerRadius="25"
-                        HeightRequest="50"
-                        FontSize="16"
-                        FontAttributes="Bold"
-                        Clicked="Button_Clicked_1"
-                        />
+                <!-- Botones para usuarios no logueados -->
+                <VerticalStackLayout Spacing="15" IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource InvertedBoolConverter}}">
+                    <Button Text="Comenzar como Pasajero"
+                            Command="{Binding StartAsPassengerCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}"/>
+
+                    <Button Text="Registrarse como Conductor"
+                            Command="{Binding StartAsDriverCommand}"
+                            Style="{StaticResource SecondaryButtonStyle}"/>
+                </VerticalStackLayout>
+
+                <!-- Botones para usuarios logueados -->
+                <VerticalStackLayout Spacing="15" IsVisible="{Binding IsUserLoggedIn}">
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Grid.Column="0"
+                                Text="🔍 Buscar Viajes"
+                                Command="{Binding StartAsPassengerCommand}"
+                                BackgroundColor="#3498DB"
+                                TextColor="White"
+                                CornerRadius="15"
+                                HeightRequest="60"
+                                FontSize="14"
+                                FontAttributes="Bold"/>
+
+                        <Button Grid.Column="1"
+                                Text="🚗 Mis Viajes"
+                                Command="{Binding StartAsDriverCommand}"
+                                BackgroundColor="#27AE60"
+                                TextColor="White"
+                                CornerRadius="15"
+                                HeightRequest="60"
+                                FontSize="14"
+                                FontAttributes="Bold"/>
+                    </Grid>
+
+                    <Button Text="👤 Ver Mi Perfil"
+                            Clicked="OnProfileClicked"
+                            BackgroundColor="#95A5A6"
+                            TextColor="White"
+                            CornerRadius="20"
+                            HeightRequest="45"
+                            FontSize="16"/>
+                </VerticalStackLayout>
             </VerticalStackLayout>
 
-            
+            <!-- Información de Contacto -->
             <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="15" Margin="0,20,0,0">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Contacto" FontAttributes="Bold" FontSize="16" TextColor="#2C3E50"/>
                     <Label Text="📧 soporte@uniway.com" TextColor="#34495E"/>
                     <Label Text="📱 +593 99 123 4567" TextColor="#34495E"/>
+                    <Label Text="🌐 www.uniway.com" TextColor="#34495E"/>
                 </VerticalStackLayout>
             </Frame>
+
+            <!-- Indicador de carga -->
+            <ActivityIndicator IsVisible="{Binding IsBusy}" 
+                             IsRunning="{Binding IsBusy}"
+                             Color="#8B0000"
+                             VerticalOptions="Center"/>
 
         </VerticalStackLayout>
     </ScrollView>
