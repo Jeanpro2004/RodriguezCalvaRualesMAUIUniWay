@@ -4,6 +4,7 @@ using RodriguezCalvaRualesMAUIUniWay.API;
 using RodriguezCalvaRualesMAUIUniWay.Services;
 using RodriguezCalvaRualesMAUIUniWay.ViewModels;
 using RodriguezCalvaRualesMAUIUniWay.Views;
+using RodriguezCalvaRualesMAUIUniWay.Interfaces;
 
 namespace RodriguezCalvaRualesMAUIUniWay;
 
@@ -23,6 +24,10 @@ public static class MauiProgram
         // Registrar base de datos SQLite
         builder.Services.AddSingleton<ReservaDatabaseService>(s =>
             new ReservaDatabaseService(Path.Combine(FileSystem.AppDataDirectory, "reservas.db")));
+
+        // Registrar servicios de archivos y login attempts
+        builder.Services.AddSingleton<IFileService, FileService>();
+        builder.Services.AddSingleton<ILoginAttemptService, LoginAttemptService>();
 
         // Registrar servicios API
         builder.Services.AddSingleton<UsuarioService>();
