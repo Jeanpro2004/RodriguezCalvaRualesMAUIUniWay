@@ -9,7 +9,7 @@
 
             <!-- Encabezado -->
             <StackLayout HorizontalOptions="Center" Margin="0,20,0,0">
-                <Label Text="🔍 {Binding Title}" 
+                <Label Text="🔍 Buscar Viaje" 
                        FontSize="24" 
                        FontAttributes="Bold"
                        HorizontalOptions="Center"
