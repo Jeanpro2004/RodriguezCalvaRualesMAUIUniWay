@@ -221,8 +221,8 @@ namespace RodriguezCalvaRualesMAUIUniWay.ViewModels
                 await Application.Current.MainPage.DisplayAlert("¡Éxito!",
                     "Tu reserva ha sido creada exitosamente. Puedes verla en 'Mis Reservas'.", "OK");
 
-                // Opcional: navegar a la página de reservas
-                await Shell.Current.GoToAsync("//reservas");
+                
+                
 
             }
             catch (Exception ex)
