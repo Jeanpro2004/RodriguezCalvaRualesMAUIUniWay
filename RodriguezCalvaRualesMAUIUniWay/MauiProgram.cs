@@ -1,10 +1,11 @@
 ﻿// MauiProgram.cs
 using Microsoft.Extensions.Logging;
 using RodriguezCalvaRualesMAUIUniWay.API;
+using RodriguezCalvaRualesMAUIUniWay.Repositories;
 using RodriguezCalvaRualesMAUIUniWay.Services;
 using RodriguezCalvaRualesMAUIUniWay.ViewModels;
 using RodriguezCalvaRualesMAUIUniWay.Views;
-using RodriguezCalvaRualesMAUIUniWay.Interfaces;
+
 
 namespace RodriguezCalvaRualesMAUIUniWay;
 
@@ -26,8 +27,7 @@ public static class MauiProgram
             new ReservaDatabaseService(Path.Combine(FileSystem.AppDataDirectory, "reservas.db")));
 
         // Registrar servicios de archivos y login attempts
-        builder.Services.AddSingleton<IFileService, FileService>();
-        builder.Services.AddSingleton<ILoginAttemptService, LoginAttemptService>();
+        builder.Services.AddSingleton<LoginAttemptRepository>();
 
         // Registrar servicios API
         builder.Services.AddSingleton<UsuarioService>();

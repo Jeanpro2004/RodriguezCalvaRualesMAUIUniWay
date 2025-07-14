@@ -1,25 +1,103 @@
-using RodriguezCalvaRualesMAUIUniWay.API;
-using RodriguezCalvaRualesMAUIUniWay.Interfaces; 
-using RodriguezCalvaRualesMAUIUniWay.Models; 
+ï»¿using RodriguezCalvaRualesMAUIUniWay.API;
+using RodriguezCalvaRualesMAUIUniWay.Models;
+using RodriguezCalvaRualesMAUIUniWay.Repositories;
 
 namespace RodriguezCalvaRualesMAUIUniWay.Views
 {
     public partial class LoginPage : ContentPage
     {
         private readonly UsuarioService _usuarioService;
-        private readonly ILoginAttemptService _loginAttemptService; 
+        private readonly LoginAttemptRepository _loginRepo;
 
-        
         public LoginPage()
         {
             InitializeComponent();
             _usuarioService = new UsuarioService();
+            _loginRepo = new LoginAttemptRepository();
 
-            // Obtener el servicio desde el contenedor DI
-            _loginAttemptService = Handler?.MauiContext?.Services?.GetService<ILoginAttemptService>();
+            System.Diagnostics.Debug.WriteLine($"ðŸ“ Archivo login_attempts.txt se guardarÃ¡ en: {_loginRepo.ObtenerRutaArchivo()}");
         }
 
-        // MÉTODO OnLoginClicked 
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            // Limpiar intentos antiguos
+            try
+            {
+                await _loginRepo.LimpiarIntentosAntiguos(30);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error limpiando intentos antiguos: {ex.Message}");
+            }
+        }
+
+        // BOTÃ“N DEBUG PARA VER RUTA Y PROBAR GUARDADO
+        private async void OnDebugFileLocationClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var rutaArchivo = _loginRepo.ObtenerRutaArchivo();
+                var infoArchivo = await _loginRepo.ObtenerInformacionDelArchivo();
+
+                string debugInfo = $"ðŸ“ Ruta del archivo:\n{rutaArchivo}\n\n";
+
+                if (infoArchivo != null)
+                {
+                    debugInfo += $"ðŸ“„ Archivo existe: SÃ\n";
+                    debugInfo += $"ðŸ“Š TamaÃ±o: {infoArchivo.Length} bytes\n";
+                    debugInfo += $"ðŸ“… Creado: {infoArchivo.CreationTime:dd/MM/yyyy HH:mm}\n";
+                    debugInfo += $"ðŸ”„ Modificado: {infoArchivo.LastWriteTime:dd/MM/yyyy HH:mm}";
+                }
+                else
+                {
+                    debugInfo += $"ðŸ“„ Archivo existe: NO";
+                }
+
+                await DisplayAlert("Debug - InformaciÃ³n del Archivo", debugInfo, "OK");
+
+                // Mostrar contenido del archivo
+                var intentos = await _loginRepo.ObtenerTodosLosIntentos();
+                if (intentos.Any())
+                {
+                    var ultimosIntentos = intentos.Take(3).ToList();
+                    var contenido = string.Join("\n", ultimosIntentos.Select(i =>
+                        $"{i.GetFormattedDateTime()} - {i.Email} - {i.GetStatusText()}"));
+
+                    await DisplayAlert("Ãšltimos 3 Intentos", contenido, "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error Debug", $"Error: {ex.Message}", "OK");
+            }
+        }
+
+        // BOTÃ“N PARA PROBAR GUARDADO
+        private async void OnTestFileServiceClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                // Crear un intento de prueba
+                var intentoPrueba = new LoginAttempt("test@udla.edu.ec", false, "Prueba de guardado desde debug");
+
+                bool guardado = await _loginRepo.GuardarIntentoLogin(intentoPrueba);
+
+                await DisplayAlert("Test Guardado",
+                    $"Â¿Guardado exitoso? {guardado}\n" +
+                    $"Archivo: {_loginRepo.ObtenerRutaArchivo()}", "OK");
+
+                // Verificar leyendo los intentos
+                var intentos = await _loginRepo.ObtenerTodosLosIntentos();
+                await DisplayAlert("VerificaciÃ³n", $"Intentos en archivo: {intentos.Count}", "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error Test", ex.Message, "OK");
+            }
+        }
+
         private async void OnLoginClicked(object sender, EventArgs e)
         {
             if (LoadingIndicator.IsRunning)
@@ -28,7 +106,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
             var email = EmailEntry.Text?.Trim();
             var password = PasswordEntry.Text?.Trim();
 
-            // Validaciones básicas
+            // Validaciones bÃ¡sicas
             if (string.IsNullOrEmpty(email))
             {
                 await DisplayAlert("Error", "Por favor ingresa tu email.", "OK");
@@ -37,33 +115,28 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 
             if (string.IsNullOrEmpty(password))
             {
-                await DisplayAlert("Error", "Por favor ingresa tu contraseña.", "OK");
+                await DisplayAlert("Error", "Por favor ingresa tu contraseÃ±a.", "OK");
                 return;
             }
 
-            // Verificar si la cuenta está bloqueada
-            if (_loginAttemptService != null)
+            // Verificar bloqueo de cuenta
+            try
             {
-                try
+                var recentFailedAttempts = await _loginRepo.ContarIntentosFallidos(email, DateTime.Now.AddMinutes(-15));
+                if (recentFailedAttempts >= 5)
                 {
-                    var isLocked = await _loginAttemptService.IsAccountLockedAsync(email, 5, 15);
-                    if (isLocked)
-                    {
-                        await DisplayAlert("Cuenta Bloqueada",
-                            "Tu cuenta ha sido bloqueada temporalmente debido a múltiples intentos fallidos. " +
-                            "Intenta nuevamente en 15 minutos.", "OK");
+                    await DisplayAlert("Cuenta Bloqueada",
+                        "Tu cuenta ha sido bloqueada temporalmente debido a mÃºltiples intentos fallidos. " +
+                        "Intenta nuevamente en 15 minutos.", "OK");
 
-                        // Guardar intento bloqueado
-                        var blockedAttempt = new LoginAttempt(email, false, "Cuenta bloqueada por múltiples intentos fallidos");
-                        await _loginAttemptService.SaveLoginAttemptAsync(blockedAttempt);
-                        return;
-                    }
+                    var blockedAttempt = new LoginAttempt(email, false, "Cuenta bloqueada por mÃºltiples intentos fallidos");
+                    await _loginRepo.GuardarIntentoLogin(blockedAttempt);
+                    return;
                 }
-                catch (Exception ex)
-                {
-                    // Log error pero continuar con el login
-                    System.Diagnostics.Debug.WriteLine($"Error verificando bloqueo: {ex.Message}");
-                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error verificando bloqueo: {ex.Message}");
             }
 
             LoadingIndicator.IsVisible = true;
@@ -72,7 +145,6 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 
             try
             {
-                // Verificar credenciales
                 var usuarios = await _usuarioService.GetUsuariosAsync();
                 var usuario = usuarios?.FirstOrDefault(u =>
                     string.Equals(u.Correo, email, StringComparison.OrdinalIgnoreCase) &&
@@ -80,59 +152,40 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 
                 if (usuario != null)
                 {
-                    // Login exitoso
+                    // âœ… LOGIN EXITOSO
                     SessionService.CurrentUserId = usuario.Id;
 
                     // Guardar intento exitoso
-                    if (_loginAttemptService != null)
-                    {
-                        try
-                        {
-                            var successAttempt = new LoginAttempt(email, true, "Login exitoso");
-                            await _loginAttemptService.SaveLoginAttemptAsync(successAttempt);
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"Error guardando intento exitoso: {ex.Message}");
-                        }
-                    }
+                    var successAttempt = new LoginAttempt(email, true, "Login exitoso");
+                    bool guardadoExitoso = await _loginRepo.GuardarIntentoLogin(successAttempt);
 
-                    await DisplayAlert("Éxito", $"¡Bienvenido, {usuario.Nombre}!", "OK");
+                    System.Diagnostics.Debug.WriteLine($"âœ… Login exitoso - Guardado: {guardadoExitoso}");
 
-                    // Limpiar campos
+                    await DisplayAlert("Ã‰xito", $"Â¡Bienvenido, {usuario.Nombre}!", "OK");
+
                     EmailEntry.Text = "";
                     PasswordEntry.Text = "";
 
-                    // Navegar a página principal o actualizar UI
                     await Shell.Current.GoToAsync("//SearchRidePage");
                 }
                 else
                 {
-                    // Login fallido
-                    string errorMessage = "Email o contraseña incorrectos.";
+                    // âŒ LOGIN FALLIDO
+                    string errorMessage = "Email o contraseÃ±a incorrectos.";
 
                     // Guardar intento fallido
-                    if (_loginAttemptService != null)
+                    var failedAttempt = new LoginAttempt(email, false, errorMessage);
+                    bool guardadoFallido = await _loginRepo.GuardarIntentoLogin(failedAttempt);
+
+                    System.Diagnostics.Debug.WriteLine($"âŒ Login fallido - Guardado: {guardadoFallido}");
+
+                    // Verificar cuÃ¡ntos intentos fallidos recientes tiene
+                    var recentFailedCount = await _loginRepo.ContarIntentosFallidos(email, DateTime.Now.AddMinutes(-15));
+
+                    if (recentFailedCount >= 3)
                     {
-                        try
-                        {
-                            var failedAttempt = new LoginAttempt(email, false, errorMessage);
-                            await _loginAttemptService.SaveLoginAttemptAsync(failedAttempt);
-
-                            // Verificar cuántos intentos fallidos recientes tiene
-                            var recentFailedAttempts = await _loginAttemptService.GetFailedAttemptsCountAsync(
-                                email, DateTime.Now.AddMinutes(-15));
-
-                            if (recentFailedAttempts >= 3)
-                            {
-                                errorMessage = $"Credenciales incorrectas. Te quedan {5 - recentFailedAttempts} intentos " +
-                                             $"antes de que tu cuenta sea bloqueada temporalmente.";
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"Error guardando intento fallido: {ex.Message}");
-                        }
+                        errorMessage = $"Credenciales incorrectas. Te quedan {5 - recentFailedCount} intentos " +
+                                     $"antes de que tu cuenta sea bloqueada temporalmente.";
                     }
 
                     await DisplayAlert("Error de Login", errorMessage, "OK");
@@ -140,43 +193,19 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
             }
             catch (HttpRequestException)
             {
-                // Error de conexión
-                string connectionError = "No se pudo conectar al servidor. Verifica tu conexión a internet.";
+                string connectionError = "No se pudo conectar al servidor. Verifica tu conexiÃ³n a internet.";
 
-                // Guardar error de conexión
-                if (_loginAttemptService != null)
-                {
-                    try
-                    {
-                        var connectionAttempt = new LoginAttempt(email, false, connectionError);
-                        await _loginAttemptService.SaveLoginAttemptAsync(connectionAttempt);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Error guardando intento de conexión: {ex.Message}");
-                    }
-                }
+                var connectionAttempt = new LoginAttempt(email, false, connectionError);
+                await _loginRepo.GuardarIntentoLogin(connectionAttempt);
 
-                await DisplayAlert("Error de Conexión", connectionError, "OK");
+                await DisplayAlert("Error de ConexiÃ³n", connectionError, "OK");
             }
             catch (Exception ex)
             {
-                // Error general
                 string generalError = $"Error inesperado: {ex.Message}";
 
-                // Guardar error general
-                if (_loginAttemptService != null)
-                {
-                    try
-                    {
-                        var errorAttempt = new LoginAttempt(email, false, generalError);
-                        await _loginAttemptService.SaveLoginAttemptAsync(errorAttempt);
-                    }
-                    catch (Exception saveEx)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Error guardando intento con error: {saveEx.Message}");
-                    }
-                }
+                var errorAttempt = new LoginAttempt(email, false, generalError);
+                await _loginRepo.GuardarIntentoLogin(errorAttempt);
 
                 await DisplayAlert("Error", generalError, "OK");
             }
@@ -190,72 +219,13 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 
         private async void OnForgotPasswordTapped(object sender, TappedEventArgs e)
         {
-            await DisplayAlert("Recuperar Contraseña",
+            await DisplayAlert("Recuperar ContraseÃ±a",
                 "Funcionalidad en desarrollo. Contacta al administrador del sistema.", "OK");
         }
 
         private async void OnRegisterTapped(object sender, TappedEventArgs e)
         {
             await Shell.Current.GoToAsync("//RegisterPage");
-        }
-
-        // Limpiar intentos antiguos (opcional, puede llamarse periódicamente)
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-
-            // Limpiar intentos antiguos al aparecer la página
-            if (_loginAttemptService != null)
-            {
-                try
-                {
-                    // Limpiar intentos mayores a 30 días
-                    await _loginAttemptService.ClearOldAttemptsAsync(30);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Error limpiando intentos antiguos: {ex.Message}");
-                }
-            }
-        }
-
-        // Ver historial de intentos (opcional, para debugging o admin)
-        private async void OnViewLoginHistoryTapped(object sender, TappedEventArgs e)
-        {
-            if (_loginAttemptService == null)
-            {
-                await DisplayAlert("Error", "Servicio de intentos no disponible.", "OK");
-                return;
-            }
-
-            try
-            {
-                var email = EmailEntry.Text?.Trim();
-                if (string.IsNullOrEmpty(email))
-                {
-                    await DisplayAlert("Error", "Ingresa un email para ver el historial.", "OK");
-                    return;
-                }
-
-                var attempts = await _loginAttemptService.GetLoginAttemptsByEmailAsync(email);
-                var recentAttempts = attempts.Take(5).ToList();
-
-                if (!recentAttempts.Any())
-                {
-                    await DisplayAlert("Historial", "No hay intentos registrados para este email.", "OK");
-                    return;
-                }
-
-                var historyText = string.Join("\n", recentAttempts.Select(a =>
-                    $"{a.GetFormattedDateTime()} - {a.GetStatusText()}" +
-                    (!string.IsNullOrEmpty(a.ErrorMessage) ? $" ({a.ErrorMessage})" : "")));
-
-                await DisplayAlert("Últimos 5 Intentos", historyText, "OK");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Error obteniendo historial: {ex.Message}", "OK");
-            }
         }
     }
 }
