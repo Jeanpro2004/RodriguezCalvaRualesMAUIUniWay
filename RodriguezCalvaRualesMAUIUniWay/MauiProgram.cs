@@ -22,6 +22,8 @@ public static class MauiProgram
 
         // Registrar servicios principales
         builder.Services.AddSingleton<UsuarioService>();
+        builder.Services.AddSingleton<VehiculoService>();
+        builder.Services.AddSingleton<ReservaService>();
         builder.Services.AddSingleton<ManejoArchivosRepository>();
         builder.Services.AddSingleton<NotificationService>();
         builder.Services.AddSingleton<ViajeService>();

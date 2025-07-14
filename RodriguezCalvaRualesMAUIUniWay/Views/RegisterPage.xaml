@@ -152,6 +152,37 @@
                 </Frame>
             </VerticalStackLayout>
 
+            <!-- Vehículo (solo si es conductor) -->
+            <VerticalStackLayout Spacing="5"
+                     IsVisible="{Binding IsDriver}">
+
+                <Label Text="Información del Vehículo" 
+           FontSize="16" 
+           FontAttributes="Bold" 
+           TextColor="#2C3E50"/>
+
+                <Label Text="Marca *" TextColor="#2C3E50" FontSize="14"/>
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding Marca}" Placeholder="Toyota, Kia, etc." Margin="15,0"/>
+                </Frame>
+
+                <Label Text="Modelo *" TextColor="#2C3E50" FontSize="14"/>
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding Modelo}" Placeholder="Yaris, Río, etc." Margin="15,0"/>
+                </Frame>
+
+                <Label Text="Color *" TextColor="#2C3E50" FontSize="14"/>
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding Color}" Placeholder="Rojo, Gris, Azul..." Margin="15,0"/>
+                </Frame>
+
+                <Label Text="Placa *" TextColor="#2C3E50" FontSize="14"/>
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding Placa}" Placeholder="ABC-1234" Margin="15,0"/>
+                </Frame>
+            </VerticalStackLayout>
+
+
             <!-- Términos y Condiciones -->
             <Frame BackgroundColor="#FFF9E6" CornerRadius="10" Padding="15">
                 <StackLayout Orientation="Horizontal" Spacing="10">
@@ -173,9 +204,10 @@
             <!-- Botón Registro -->
             <Button Text="Crear Mi Cuenta"
                     Command="{Binding RegisterCommand}"
-                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                    IsEnabled="{Binding IsFormValid}"
                     Style="{StaticResource PrimaryButtonStyle}"
-                    Margin="0,20,0,0"/>
+                    Margin="0,20,0,0"/> 
+
 
             <!-- Link a Login -->
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="5" Margin="0,20,0,0">
