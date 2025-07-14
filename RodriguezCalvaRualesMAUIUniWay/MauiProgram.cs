@@ -3,7 +3,6 @@ using RodriguezCalvaRualesMAUIUniWay.API;
 using RodriguezCalvaRualesMAUIUniWay.Repositorios;
 using RodriguezCalvaRualesMAUIUniWay.ViewModels;
 using RodriguezCalvaRualesMAUIUniWay.Views;
-using RodriguezCalvaRualesMAUIUniWay.Converters;
 using RodriguezCalvaRualesMAUIUniWay.Services;
 
 namespace RodriguezCalvaRualesMAUIUniWay;
@@ -28,6 +27,12 @@ public static class MauiProgram
         builder.Services.AddSingleton<ViajeService>();
         builder.Services.AddSingleton<AuthenticationService>();
 
+        // Registrar servicios con interfaces
+        builder.Services.AddSingleton<ILogService, LogService>();
+        builder.Services.AddSingleton<IUserSessionService, UserSessionService>();
+        builder.Services.AddSingleton<IFileManagementService, FileManagementService>();
+        builder.Services.AddSingleton<IUsuarioService, UsuarioServiceImpl>();
+
         // Registrar ViewModels
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<RegisterViewModel>();
@@ -43,21 +48,6 @@ public static class MauiProgram
         builder.Services.AddTransient<HomePage>();
         builder.Services.AddTransient<MyRidesPage>();
         builder.Services.AddTransient<SearchRidePage>();
-
-        // Registrar Converters
-        builder.Services.AddSingleton<InvertedBoolConverter>();
-        builder.Services.AddSingleton<IsNotNullConverter>();
-        builder.Services.AddSingleton<IsNotNullOrEmptyConverter>();
-        builder.Services.AddSingleton<DateTimeToStringConverter>();
-        builder.Services.AddSingleton<BoolToColorConverter>();
-        builder.Services.AddSingleton<StringToColorConverter>();
-        builder.Services.AddSingleton<DecimalToCurrencyConverter>();
-        builder.Services.AddSingleton<TimeSpanToStringConverter>();
-        builder.Services.AddSingleton<IntToStringConverter>();
-        builder.Services.AddSingleton<ListCountToVisibilityConverter>();
-        builder.Services.AddSingleton<StringFormatConverter>();
-        builder.Services.AddSingleton<EnumToStringConverter>();
-        builder.Services.AddSingleton<ValidationErrorConverter>();
 
 #if DEBUG
         builder.Logging.AddDebug();

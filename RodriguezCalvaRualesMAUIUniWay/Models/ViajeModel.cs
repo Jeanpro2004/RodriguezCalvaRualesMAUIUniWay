@@ -16,9 +16,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Models
         private string _conductor;
         private int _conductorId;
         private string _estado;
-        private string _descripcion;
         private List<string> _pasajeros;
-        private VehiculoModel _vehiculo;
 
         public int Id
         {
@@ -86,40 +84,18 @@ namespace RodriguezCalvaRualesMAUIUniWay.Models
             set => SetProperty(ref _estado, value);
         }
 
-        public string Descripcion
-        {
-            get => _descripcion;
-            set => SetProperty(ref _descripcion, value);
-        }
-
         public List<string> Pasajeros
         {
             get => _pasajeros ??= new List<string>();
             set => SetProperty(ref _pasajeros, value);
         }
 
-        public VehiculoModel Vehiculo
-        {
-            get => _vehiculo;
-            set => SetProperty(ref _vehiculo, value);
-        }
-
         // Propiedades computadas
         public string FechaFormateada => Fecha.ToString("dd/MM/yyyy");
         public string HoraFormateada => Hora.ToString(@"hh\:mm");
-        public string FechaHoraCompleta => $"{FechaFormateada} a las {HoraFormateada}";
         public string RutaCompleta => $"{Origen} → {Destino}";
         public string PrecioFormateado => $"${Precio:F2}";
-        public string EspaciosInfo => $"{EspaciosDisponibles}/{EspaciosTotales} disponibles";
         public bool TieneEspacios => EspaciosDisponibles > 0;
-        public bool EstaCompleto => EspaciosDisponibles == 0;
-        public string EstadoColor => Estado switch
-        {
-            "Activo" => "#27AE60",
-            "Completo" => "#E74C3C",
-            "Cancelado" => "#95A5A6",
-            _ => "#3498DB"
-        };
 
         public event PropertyChangedEventHandler PropertyChanged;
 

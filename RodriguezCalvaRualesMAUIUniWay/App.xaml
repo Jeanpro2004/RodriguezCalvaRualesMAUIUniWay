@@ -1,4 +1,4 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:RodriguezCalvaRualesMAUIUniWay"
@@ -11,14 +11,19 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            
+            <!-- CONVERTERS COMPLETOS -->
             <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
             <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
             <converters:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
-            <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
-            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converters:BoolToStringConverter x:Key="BoolToStringConverter" />
+            <converters:BoolToEmojiConverter x:Key="BoolToEmojiConverter" />
+            <converters:BoolToUserTypeConverter x:Key="BoolToUserTypeConverter" />
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" 
+                                           TrueColor="#27AE60" 
+                                           FalseColor="#FF9800" />
             <converters:StringToColorConverter x:Key="StringToColorConverter" />
             <converters:DecimalToCurrencyConverter x:Key="DecimalToCurrencyConverter" />
+            <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
             <converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
             <converters:IntToStringConverter x:Key="IntToStringConverter" />
             <converters:ListCountToVisibilityConverter x:Key="ListCountToVisibilityConverter" />
@@ -26,7 +31,7 @@
             <converters:EnumToStringConverter x:Key="EnumToStringConverter" />
             <converters:ValidationErrorConverter x:Key="ValidationErrorConverter" />
 
-            <!-- Global Styles -->
+            <!-- ESTILOS GLOBALES -->
             <Style x:Key="PrimaryButtonStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="#8B0000" />
                 <Setter Property="TextColor" Value="White" />

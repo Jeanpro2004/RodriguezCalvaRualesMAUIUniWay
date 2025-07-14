@@ -401,7 +401,7 @@
                                                     HeightRequest="35"
                                                     FontSize="12"
                                                     HorizontalOptions="FillAndExpand"
-                                                    Tapped="OnRideItemTapped"/>
+                                                    Clicked="OnRideItemTapped"/>
 
                                             <Button Text="📝 Reservar"
                                                     BackgroundColor="#27AE60"

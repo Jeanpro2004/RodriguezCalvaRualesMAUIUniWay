@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace RodriguezCalvaRualesMAUIUniWay.API
 {
@@ -13,14 +9,12 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
         private readonly HttpClient _httpClient;
         private const string ApiBaseUrl = "http://localhost:5113/";
 
-
         public UsuarioService()
         {
             _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(ApiBaseUrl)
             };
-
         }
 
         public async Task<List<Usuario>> GetUsuariosAsync()
@@ -32,7 +26,6 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
         {
             return await _httpClient.GetFromJsonAsync<Usuario>($"api/Usuarios/{id}");
         }
-
 
         public async Task<Usuario> CreateUsuarioAsync(Usuario nuevoUsuario)
         {
@@ -60,7 +53,6 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
             }
         }
 
-
         public async Task DeleteUsuarioAsync(int id)
         {
             var response = await _httpClient.DeleteAsync($"api/Usuarios/{id}");
@@ -68,6 +60,5 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
             if (!response.IsSuccessStatusCode)
                 throw new HttpRequestException($"Error deleting user: {response.StatusCode}");
         }
-
     }
 }

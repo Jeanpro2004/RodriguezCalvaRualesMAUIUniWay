@@ -14,7 +14,6 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             base.OnAppearing();
 
-            // Refrescar estado del usuario cuando aparece la página
             if (BindingContext is HomeViewModel viewModel)
             {
                 await viewModel.CheckUserStatus();

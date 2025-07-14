@@ -128,7 +128,7 @@
                         <Frame BackgroundColor="#FFF3E0" CornerRadius="20" Padding="15,8" HasShadow="False">
                             <Label Text="🚗 Espaciosos" TextColor="#F57C00" FontSize="12" FontAttributes="Bold"/>
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnSpacious FilterTapped"/>
+                                <TapGestureRecognizer Tapped="OnSpaciousFilterTapped"/>
                             </Frame.GestureRecognizers>
                         </Frame>
 
