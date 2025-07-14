@@ -130,8 +130,65 @@
                     </StackLayout>
                 </StackLayout>
             </VerticalStackLayout>
+            <VerticalStackLayout x:Name="VehicleSection" IsVisible="False" Spacing="20">
 
-            
+                <Label Text="Información del Vehículo"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#2C3E50"/>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Marca" TextColor="#2C3E50" FontSize="14"/>
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                        <Entry x:Name="MarcaEntry"
+                                   Placeholder="Ej: Toyota"
+                                   PlaceholderColor="#95A5A6"
+                                   TextColor="#2C3E50"
+                                   BackgroundColor="Transparent"
+                                   Margin="15,0"/>
+                    </Frame>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Modelo" TextColor="#2C3E50" FontSize="14"/>
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                        <Entry x:Name="ModeloEntry"
+                                   Placeholder="Ej: Corolla"
+                                   PlaceholderColor="#95A5A6"
+                                   TextColor="#2C3E50"
+                                   BackgroundColor="Transparent"
+                                   Margin="15,0"/>
+                    </Frame>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Color" TextColor="#2C3E50" FontSize="14"/>
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                        <Entry x:Name="ColorEntry"
+                                   Placeholder="Ej: Rojo"
+                                   PlaceholderColor="#95A5A6"
+                                   TextColor="#2C3E50"
+                                   BackgroundColor="Transparent"
+                                   Margin="15,0"/>
+                    </Frame>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Placa" TextColor="#2C3E50" FontSize="14"/>
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                        <Entry x:Name="PlacaEntry"
+                                   Placeholder="Ej: ABC1234"
+                                   PlaceholderColor="#95A5A6"
+                                   TextColor="#2C3E50"
+                                   BackgroundColor="Transparent"
+                                   Margin="15,0"/>
+                    </Frame>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+
+
             <StackLayout Orientation="Horizontal" Spacing="10">
                 <CheckBox x:Name="TermsCheckBox" Color="#8B0000"/>
                 <Label TextColor="#2C3E50" FontSize="14">

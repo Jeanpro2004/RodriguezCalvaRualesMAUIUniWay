@@ -5,9 +5,19 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 {
     public partial class RegisterPage : ContentPage
     {
+        private readonly UsuarioService _usuarioService = new UsuarioService();
+        private readonly VehiculoService _vehiculoService = new VehiculoService();
+
         public RegisterPage()
         {
             InitializeComponent();
+            DriverRadio.CheckedChanged += OnDriverCheckedChanged;
+
+        }
+
+        private void OnDriverCheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            VehicleSection.IsVisible = e.Value; 
         }
 
         private async void OnRegisterClicked(object sender, EventArgs e)
@@ -16,7 +26,6 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
             LoadingIndicator.IsRunning = true;
             RegisterButton.IsEnabled = false;
 
-            // Validaciones
             if (!ValidateForm())
             {
                 ResetLoadingState();
@@ -25,34 +34,44 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 
             var user = new Usuario
             {
-                IdBanner = IdBannerEntry.Text, 
+                IdBanner = IdBannerEntry.Text,
                 Nombre = NameEntry.Text,
                 Correo = EmailEntry.Text,
                 Telefono = "+593" + PhoneEntry.Text.Trim(),
                 Contrasena = PasswordEntry.Text,
                 EsConductor = DriverRadio.IsChecked
             };
+
             try
             {
-                using var httpClient = new HttpClient();
-                httpClient.BaseAddress = new Uri("http://localhost:5113/"); 
+                // Create user
+                var createdUser = await _usuarioService.CreateUsuarioAsync(user);
 
-                var response = await httpClient.PostAsJsonAsync("api/Usuarios", user);
+                // If user is driver, create vehicle using the created user's Id
+                if (DriverRadio.IsChecked)
+                {
+                    var vehiculo = new Vehiculo
+                    {
+                        Marca = MarcaEntry.Text,
+                        Modelo = ModeloEntry.Text,
+                        Color = ColorEntry.Text ?? string.Empty,
+                        Placa = PlacaEntry.Text,
+                        ConductorId = createdUser.Id
+                    };
 
-                if (response.IsSuccessStatusCode)
-                {
-                    await DisplayAlert("Éxito", "¡Cuenta creada exitosamente!", "OK");
-                    await Shell.Current.GoToAsync("//LoginPage");
+                    await _vehiculoService.CreateVehiculoAsync(vehiculo);
                 }
-                else
-                {
-                    var error = await response.Content.ReadAsStringAsync();
-                    await DisplayAlert("Error", $"Error al crear cuenta: {error}", "OK");
-                }
+
+                await DisplayAlert("Éxito", "¡Cuenta creada exitosamente!", "OK");
+                await Shell.Current.GoToAsync("//LoginPage");
+            }
+            catch (HttpRequestException httpEx)
+            {
+                await DisplayAlert("Error", $"Error en la petición HTTP: {httpEx.Message}", "OK");
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", $"No se pudo conectar al servidor: {ex.Message}", "OK");
+                await DisplayAlert("Error", $"Error: {ex.Message}", "OK");
             }
 
             ResetLoadingState();
@@ -107,6 +126,30 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
                 return false;
             }
 
+            if (DriverRadio.IsChecked)
+            {
+                if (string.IsNullOrWhiteSpace(MarcaEntry.Text))
+                {
+                    DisplayAlert("Error", "Por favor ingresa la marca del vehículo", "OK");
+                    return false;
+                }
+                if (string.IsNullOrWhiteSpace(ModeloEntry.Text))
+                {
+                    DisplayAlert("Error", "Por favor ingresa el modelo del vehículo", "OK");
+                    return false;
+                }
+                if (string.IsNullOrWhiteSpace(PlacaEntry.Text))
+                {
+                    DisplayAlert("Error", "Por favor ingresa la placa del vehículo", "OK");
+                    return false;
+                }
+                if (string.IsNullOrEmpty(ColorEntry.Text))
+                {
+                    DisplayAlert("Error", "Por favor ingresa el color del vehículo", "OK");
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -119,10 +162,20 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
             PasswordEntry.Text = string.Empty;
             ConfirmPasswordEntry.Text = string.Empty;
             DriverRadio.IsChecked = false;
+            PassengerRadio.IsChecked = true;
             TermsCheckBox.IsChecked = false;
+
+            MarcaEntry.Text = string.Empty;
+            ModeloEntry.Text = string.Empty;
+            ColorEntry.Text = string.Empty;
+            PlacaEntry.Text = string.Empty;
+
+            VehicleSection.IsVisible = false;
+
             LoadingIndicator.IsVisible = false;
             LoadingIndicator.IsRunning = false;
             RegisterButton.IsEnabled = true;
         }
+
     }
 }
