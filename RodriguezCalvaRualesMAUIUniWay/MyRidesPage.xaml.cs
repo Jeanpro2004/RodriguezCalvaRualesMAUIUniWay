@@ -44,7 +44,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
                             Origen = viaje.Origen,
                             Destino = viaje.Destino,
                             FechaHoraSalida = viaje.FechaHoraSalida,
-                            Estado = reserva.Estado
+                            Estado = reserva.Estado.ToString()
                         });
                     }
                 }

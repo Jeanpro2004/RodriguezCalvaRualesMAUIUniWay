@@ -9,9 +9,22 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
     public class Reserva
     {
         public int Id { get; set; }
-        public string Estado { get; set; }
-        public string MetodoPago { get; set; }
+        public Estado Estado { get; set; }
+        public MetodoPago MetodoPago { get; set; }
         public int ViajeId { get; set; }
         public int PasajeroId { get; set; }
+    }
+
+    public enum Estado
+    {
+        Pendiente,
+        Confirmada,
+        Cancelada
+    }
+
+    public enum MetodoPago
+    {
+        Efectivo,
+        Transferencia
     }
 }
