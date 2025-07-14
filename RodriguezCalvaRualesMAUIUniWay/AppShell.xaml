@@ -35,6 +35,12 @@
             Icon="search.png"
             ContentTemplate="{DataTemplate local:SearchRidePage}"
             Route="SearchRidePage" />
+        <!-- Pestaña 5: Crear Viaje -->
+        <ShellContent
+            Title="Crear Viaje"
+            Icon="create.png"
+            ContentTemplate="{DataTemplate local:CreateTripPage}"
+            Route="CreateTripPage" />
         <ShellContent
             Title="Reservas"
             Icon="reserva.png"
