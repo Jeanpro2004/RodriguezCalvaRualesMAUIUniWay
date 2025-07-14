@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                x:Class="RodriguezCalvaRualesMAUIUniWay.Views.SearchRidePage"
-                BackgroundColor="White">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:RodriguezCalvaRualesMAUIUniWay.API"
+             x:Class="RodriguezCalvaRualesMAUIUniWay.Views.SearchRidePage"
+             BackgroundColor="White">
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
 
+            <!-- Título -->
             <Label Text="Buscar Viaje" 
                    FontSize="24" 
                    FontAttributes="Bold"
@@ -14,9 +16,11 @@
                    TextColor="#2C3E50"
                    Margin="0,20,0,0"/>
 
+            <!-- Formulario -->
             <Frame BackgroundColor="#F8F9FA" CornerRadius="15" Padding="20" HasShadow="True">
                 <VerticalStackLayout Spacing="15">
 
+                    <!-- Origen -->
                     <VerticalStackLayout Spacing="5">
                         <Label Text="Desde" TextColor="#2C3E50" FontSize="14" FontAttributes="Bold"/>
                         <Frame BackgroundColor="White" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
@@ -29,6 +33,7 @@
                         </Frame>
                     </VerticalStackLayout>
 
+                    <!-- Destino -->
                     <VerticalStackLayout Spacing="5">
                         <Label Text="Hacia" TextColor="#2C3E50" FontSize="14" FontAttributes="Bold"/>
                         <Frame BackgroundColor="White" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
@@ -41,6 +46,7 @@
                         </Frame>
                     </VerticalStackLayout>
 
+                    <!-- Fecha -->
                     <VerticalStackLayout Spacing="5">
                         <Label Text="Fecha del viaje" TextColor="#2C3E50" FontSize="14" FontAttributes="Bold"/>
                         <Frame BackgroundColor="White" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
@@ -52,6 +58,7 @@
                         </Frame>
                     </VerticalStackLayout>
 
+                    <!-- Pasajeros -->
                     <VerticalStackLayout Spacing="5">
                         <Label Text="Número de pasajeros" TextColor="#2C3E50" FontSize="14" FontAttributes="Bold"/>
                         <Frame BackgroundColor="White" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
@@ -71,6 +78,7 @@
                         </Frame>
                     </VerticalStackLayout>
 
+                    <!-- Botón de búsqueda -->
                     <Button x:Name="SearchButton"
                             Text="🔍 Buscar Viajes"
                             BackgroundColor="#8B0000"
@@ -81,10 +89,51 @@
                             FontAttributes="Bold"
                             Margin="0,10,0,0"
                             Clicked="OnSearchClicked"/>
-
                 </VerticalStackLayout>
             </Frame>
 
+            <!-- Resultados -->
+
+            <!-- Texto si no hay resultados -->
+            <Label x:Name="EmptyLabel"
+                   IsVisible="False"
+                   Text="No se encontraron viajes 😔"
+                   TextColor="#2C3E50"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,0"/>
+
+            <!-- Lista de resultados -->
+            <CollectionView x:Name="ResultsCollection"
+                            IsVisible="False"
+                            Margin="0,10,0,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Viaje">
+                        <Frame BackgroundColor="#F0F8FF"
+                               CornerRadius="12"
+                               Padding="12"
+                               HasShadow="False"
+                               Margin="0,0,0,10">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="{Binding Origen} → {Binding Destino}"
+                                       FontAttributes="Bold"
+                                       TextColor="#2C3E50"/>
+                                <Label Text="{Binding FechaHoraSalida, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}"
+                                       FontSize="12"
+                                       TextColor="#2C3E50"/>
+                                <Label Text="{Binding Precio, StringFormat='${0:F2}'}"
+                                       FontSize="12"
+                                       TextColor="#2C3E50"/>
+                                <Label Text="{Binding AsientosDisponibles, StringFormat='Asientos disponibles: {0}'}"
+                                       FontSize="12"
+                                       TextColor="#2C3E50"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Rutas populares -->
             <VerticalStackLayout Spacing="10">
                 <Label Text="Rutas populares" 
                        FontSize="16" 
@@ -117,5 +166,4 @@
 
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
