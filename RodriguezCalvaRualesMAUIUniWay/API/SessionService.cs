@@ -9,21 +9,6 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
 {
     public static class SessionService
     {
-        public static Usuario LoggedInUser { get; private set; }
-
-        public static void SetUser(Usuario usuario)
-        {
-            LoggedInUser = usuario;
-        }
-
-        public static void Clear()
-        {
-            LoggedInUser = null;
-        }
-
-        public static int? GetUserId()
-        {
-            return LoggedInUser?.Id;
-        }
+        public static int CurrentUserId { get; set; } = 6;
     }
 }

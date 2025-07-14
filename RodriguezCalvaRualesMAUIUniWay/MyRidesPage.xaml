@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RodriguezCalvaRualesMAUIUniWay.Views.MyRidesPage"
@@ -14,26 +13,22 @@
                    TextColor="#2C3E50"
                    Margin="0,20,0,0" />
 
-            <Label Text="Aquí verás todos tus viajes programados y historial" 
-                   FontSize="16"
-                   HorizontalOptions="Center"
-                   TextColor="#95A5A6"
-                   HorizontalTextAlignment="Center" />
-
-            <Frame BackgroundColor="#F8F9FA" CornerRadius="15" Padding="20" HasShadow="True">
-                <VerticalStackLayout Spacing="15">
-                    <Label Text="Próximamente" 
-                           FontSize="18" 
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           TextColor="#2C3E50"/>
-                    <Label Text="Esta sección mostrará tus viajes activos y el historial completo." 
-                           FontSize="14"
-                           HorizontalOptions="Center"
-                           TextColor="#95A5A6"
-                           HorizontalTextAlignment="Center"/>
-                </VerticalStackLayout>
-            </Frame>
+            <CollectionView x:Name="MyRidesCollectionView" 
+                            SelectionMode="None"
+                            Margin="0,10">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="15" Margin="0,5" HasShadow="True">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Origen}" FontAttributes="Bold" FontSize="16" TextColor="#2C3E50"/>
+                                <Label Text="{Binding Destino}" FontSize="14" TextColor="#2C3E50"/>
+                                <Label Text="{Binding FechaHoraSalida, StringFormat='dd/MM/yyyy HH:mm'}" FontSize="14" TextColor="#2C3E50"/>
+                                <Label Text="{Binding Estado}" FontSize="12" TextColor="#8B0000" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
         </VerticalStackLayout>
     </ScrollView>

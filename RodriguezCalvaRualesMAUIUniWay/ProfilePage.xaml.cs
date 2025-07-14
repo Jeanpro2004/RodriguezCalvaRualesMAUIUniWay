@@ -6,7 +6,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
     {
         private readonly UsuarioService _usuarioService;
         private Usuario _usuario;
-        private int _userId = SessionService.GetUserId() ?? 0;
+        private int _userId = SessionService.CurrentUserId;  
 
         public ProfilePage()
         {
