@@ -49,6 +49,12 @@
             Icon="profile.png"
             ContentTemplate="{DataTemplate local:ProfilePage}"
             Route="ProfilePage" />
+        
+        <ShellContent
+            Title="Reservas"
+            Icon="reservas.png"
+            ContentTemplate="{DataTemplate local:ReservasPage}"
+            Route="ReservasPage" />
     </TabBar>
 
 </Shell>

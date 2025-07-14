@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using RodriguezCalvaRualesMAUIUniWay;
 using RodriguezCalvaRualesMAUIUniWay.API;
 using RodriguezCalvaRualesMAUIUniWay.Repositorios;
+using RodriguezCalvaRualesMAUIUniWay.Services;
 using RodriguezCalvaRualesMAUIUniWay.ViewModels;
 using RodriguezCalvaRualesMAUIUniWay.Views;
-using RodriguezCalvaRualesMAUIUniWay.Services;
-
-namespace RodriguezCalvaRualesMAUIUniWay;
 
 public static class MauiProgram
 {
@@ -19,6 +18,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+
+        // Registro del servicio de base de datos local - CORREGIDO
+        builder.Services.AddSingleton<ReservaDatabaseLocal>(s =>
+            new ReservaDatabaseLocal(Path.Combine(FileSystem.AppDataDirectory, "uniway.db3")));
 
         // Registrar servicios principales
         builder.Services.AddSingleton<UsuarioService>();
@@ -42,6 +45,7 @@ public static class MauiProgram
         builder.Services.AddTransient<HomeViewModel>();
         builder.Services.AddTransient<MyRidesViewModel>();
         builder.Services.AddTransient<SearchRideViewModel>();
+        builder.Services.AddTransient<ReservasViewModel>(); // AGREGADO
 
         // Registrar Views
         builder.Services.AddTransient<LoginPage>();
@@ -50,6 +54,7 @@ public static class MauiProgram
         builder.Services.AddTransient<HomePage>();
         builder.Services.AddTransient<MyRidesPage>();
         builder.Services.AddTransient<SearchRidePage>();
+        builder.Services.AddTransient<ReservasPage>(); // AGREGADO
 
 #if DEBUG
         builder.Logging.AddDebug();

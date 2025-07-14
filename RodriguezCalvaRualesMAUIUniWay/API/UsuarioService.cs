@@ -7,7 +7,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
     public class UsuarioService
     {
         private readonly HttpClient _httpClient;
-        private const string ApiBaseUrl = "http://localhost:5113/";
+        private const string ApiBaseUrl = "https://localhost:7062/";
 
         public UsuarioService()
         {
