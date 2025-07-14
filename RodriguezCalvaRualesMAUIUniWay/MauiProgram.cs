@@ -46,6 +46,8 @@ public static class MauiProgram
         builder.Services.AddTransient<MyRidesViewModel>();
         builder.Services.AddTransient<SearchRideViewModel>();
         builder.Services.AddTransient<ReservasViewModel>(); // AGREGADO
+                                                            // En MauiProgram.cs, agregar:
+        builder.Services.AddTransient<SearchRideViewModel>();
 
         // Registrar Views
         builder.Services.AddTransient<LoginPage>();

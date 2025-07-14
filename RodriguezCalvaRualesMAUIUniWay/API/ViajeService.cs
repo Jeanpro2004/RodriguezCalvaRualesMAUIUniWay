@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace RodriguezCalvaRualesMAUIUniWay.Services
+namespace RodriguezCalvaRualesMAUIUniWay.API
 {
     public class ViajeService
     {

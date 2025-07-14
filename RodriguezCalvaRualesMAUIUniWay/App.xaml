@@ -31,6 +31,10 @@
             <converters:EnumToStringConverter x:Key="EnumToStringConverter" />
             <converters:ValidationErrorConverter x:Key="ValidationErrorConverter" />
 
+            <converters:CountToBoolConverter x:Key="CountToBoolConverter" />
+            <converters:CountToInverseBoolConverter x:Key="CountToInverseBoolConverter" />
+            <converters:EstadoToColorConverter x:Key="EstadoToColorConverter" />
+
             <!-- ESTILOS GLOBALES -->
             <Style x:Key="PrimaryButtonStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="#8B0000" />
