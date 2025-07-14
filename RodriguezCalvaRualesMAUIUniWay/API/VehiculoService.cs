@@ -46,17 +46,6 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
             response.EnsureSuccessStatusCode();
         }
 
-        public Vehiculo GetVehicleByUserId(int userId)
-        {
-            var response = _httpClient.GetAsync($"api/Vehiculos/user/{userId}").GetAwaiter().GetResult();
-            if (response.IsSuccessStatusCode)
-            {
-                var vehiculo = response.Content.ReadFromJsonAsync<Vehiculo>().GetAwaiter().GetResult();
-                return vehiculo;
-            }
-            return null;
-        }
-
     }
 
 }
