@@ -5,6 +5,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
     public partial class ProfilePage : ContentPage
     {
         private readonly UsuarioService _usuarioService;
+        private readonly VehiculoService _vehiculoService;
         private Usuario _usuario;
         private int _userId = SessionService.CurrentUserId;  
 
@@ -12,7 +13,26 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             InitializeComponent();
             _usuarioService = new UsuarioService();
-                LoadUserData();
+            _vehiculoService = new VehiculoService();
+            LoadUserData();
+        }
+
+        private bool _isEditing = false;
+
+        private void SetInputsEnabled(bool enabled)
+        {
+            NameEntry.IsEnabled = enabled;
+            EmailEntry.IsEnabled = enabled;
+            PhoneEntry.IsEnabled = enabled;
+            IdBannerEntry.IsEnabled = enabled;
+            PasswordEntry.IsEnabled = enabled;
+            ConfirmPasswordEntry.IsEnabled = enabled;
+            PassengerRadio.IsEnabled = enabled;
+            DriverRadio.IsEnabled = enabled;
+
+            VehicleBrandEntry.IsEnabled = enabled;
+            VehicleModelEntry.IsEnabled = enabled;
+            VehiclePlateEntry.IsEnabled = enabled;
         }
 
         private async void LoadUserData()
@@ -20,12 +40,40 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
             try
             {
                 _usuario = await _usuarioService.GetUsuarioByIdAsync(_userId);
+
                 NameEntry.Text = _usuario.Nombre;
                 EmailEntry.Text = _usuario.Correo;
-                PhoneEntry.Text = _usuario.Telefono.Replace("+593", ""); 
-                PasswordEntry.Text = _usuario.Contrasena; 
+                PhoneEntry.Text = _usuario.Telefono.Replace("+593", "");
+                PasswordEntry.Text = _usuario.Contrasena;
+                ConfirmPasswordEntry.Text = _usuario.Contrasena;
                 IdBannerEntry.Text = _usuario.IdBanner;
-                PassengerRadio.IsChecked = _usuario.EsConductor;
+
+                PassengerRadio.IsChecked = !_usuario.EsConductor;
+                DriverRadio.IsChecked = _usuario.EsConductor;
+
+                var allCars = await _vehiculoService.GetVehiculosAsync();  
+                var vehiculo = allCars.FirstOrDefault(v => v.ConductorId == _userId);
+
+                if (vehiculo != null)
+                {
+                    VehicleBrandEntry.Text = vehiculo.Marca;
+                    VehicleModelEntry.Text = vehiculo.Modelo;
+                    VehicleColorEntry.Text = vehiculo.Color;
+                    VehiclePlateEntry.Text = vehiculo.Placa;
+                    VehicleSection.IsVisible = true;          
+                }
+                else
+                {
+                    VehicleBrandEntry.Text = "";
+                    VehicleModelEntry.Text = "";
+                    VehicleColorEntry.Text = "";
+                    VehiclePlateEntry.Text = "";
+                    VehicleSection.IsVisible = false;        
+                }
+
+                SetInputsEnabled(false);
+                EditButton.IsVisible = true;
+                UpdateButton.IsVisible = false;
             }
             catch (Exception ex)
             {
@@ -33,6 +81,14 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
             }
         }
 
+        private void OnEditClicked(object sender, EventArgs e)
+        {
+            _isEditing = true;
+            SetInputsEnabled(true);
+
+            EditButton.IsVisible = false;
+            UpdateButton.IsVisible = true;
+        }
         private async void OnUpdateClicked(object sender, EventArgs e)
         {
             try

@@ -129,21 +129,67 @@
                     </StackLayout>
                 </StackLayout>
             </VerticalStackLayout>
+            <StackLayout x:Name="VehicleSection" IsVisible="False" Margin="0,20,0,0">
+                <Label Text="Detalles del Vehículo" FontSize="16" FontAttributes="Bold" TextColor="#2C3E50"/>
 
-            <Button Text="Actualizar Perfil"
-                    Clicked="OnUpdateClicked"
-                    BackgroundColor="LightGray"
-                    TextColor="Black"
-                    CornerRadius="10"
-                    HeightRequest="45"/>
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Marca" TextColor="#2C3E50" FontSize="14"/>
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                        <Entry x:Name="VehicleBrandEntry" Placeholder="Marca" PlaceholderColor="#95A5A6" TextColor="#2C3E50" BackgroundColor="Transparent" Margin="15,0" IsEnabled="False"/>
+                    </Frame>
+                </VerticalStackLayout>
 
-            <Button Text="Eliminar Cuenta"
-                    Clicked="OnDeleteClicked"
-                    BackgroundColor="Red"
-                    TextColor="White"
-                    CornerRadius="10"
-                    HeightRequest="45"/>
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Modelo" TextColor="#2C3E50" FontSize="14"/>
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                        <Entry x:Name="VehicleModelEntry" Placeholder="Modelo" PlaceholderColor="#95A5A6" TextColor="#2C3E50" BackgroundColor="Transparent" Margin="15,0" IsEnabled="False"/>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Color del Vehículo" TextColor="#2C3E50" FontSize="14"/>
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                        <Entry x:Name="VehicleColorEntry"
+                               Placeholder="Ej: Rojo"
+                               PlaceholderColor="#95A5A6"
+                               TextColor="#2C3E50"
+                               BackgroundColor="Transparent"
+                               Margin="15,0"
+                               IsReadOnly="True"/>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Placa" TextColor="#2C3E50" FontSize="14"/>
+                    <Frame BackgroundColor="#F8F9FA" CornerRadius="10" Padding="0" HasShadow="False" BorderColor="#E0E0E0">
+                        <Entry x:Name="VehiclePlateEntry" Placeholder="Placa" PlaceholderColor="#95A5A6" TextColor="#2C3E50" BackgroundColor="Transparent" Margin="15,0" IsEnabled="False"/>
+                    </Frame>
+                </VerticalStackLayout>
+            </StackLayout>
 
+
+            <Button x:Name="EditButton"
+                        Text="Editar Perfil"
+                        Clicked="OnEditClicked"
+                        BackgroundColor="#8B0000"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="45"
+                        Margin="0,10,0,0"/>
+
+                <Button x:Name="UpdateButton"
+                        Text="Actualizar Perfil"
+                        Clicked="OnUpdateClicked"
+                        BackgroundColor="LightGray"
+                        TextColor="Black"
+                        CornerRadius="10"
+                        HeightRequest="45"
+                        IsVisible="False"/>
+
+                <Button Text="Eliminar Cuenta"
+                        Clicked="OnDeleteClicked"
+                        BackgroundColor="Red"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="45"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
