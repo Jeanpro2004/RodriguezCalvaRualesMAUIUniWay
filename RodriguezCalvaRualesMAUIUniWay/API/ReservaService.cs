@@ -10,7 +10,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
     public class ReservaService
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "http://localhost:5113/";
+        private const string BaseUrl = "https://localhost:7062/";
 
         public ReservaService()
         {

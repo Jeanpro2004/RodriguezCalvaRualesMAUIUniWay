@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:RodriguezCalvaRualesMAUIUniWay.Models"
+             x:Class="RodriguezCalvaRualesMAUIUniWay.Views.ReservasPage"
+             Title="Mis Reservas"
+             BackgroundColor="White">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header -->
+        <StackLayout Grid.Row="0" Padding="20,10" BackgroundColor="#F8F9FA">
+            <Label Text="📋 Mis Reservas" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   TextColor="#2C3E50"
+                   HorizontalOptions="Center"/>
+
+            <StackLayout Orientation="Horizontal" Spacing="10" Margin="0,10,0,0">
+                <Label Text="Filtrar:" 
+                       VerticalOptions="Center" 
+                       TextColor="#2C3E50"/>
+
+                <Picker ItemsSource="{Binding EstadosFiltro}"
+                        SelectedItem="{Binding FiltroEstado}"
+                        BackgroundColor="White"
+                        TextColor="#2C3E50"
+                        HorizontalOptions="FillAndExpand"/>
+
+                <Button Text="🔄" 
+                        Command="{Binding RefreshCommand}"
+                        BackgroundColor="#8B0000"
+                        TextColor="White"
+                        CornerRadius="20"
+                        WidthRequest="40"
+                        HeightRequest="40"/>
+            </StackLayout>
+        </StackLayout>
+
+        <!-- Lista de reservas -->
+        <RefreshView Grid.Row="1" 
+                     IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding RefreshCommand}">
+            <CollectionView ItemsSource="{Binding Reservas}"
+                           BackgroundColor="White">
+                <CollectionView.EmptyView>
+                    <StackLayout HorizontalOptions="Center" 
+                                VerticalOptions="Center"
+                                Padding="20">
+                        <Label Text="📭" 
+                               FontSize="48" 
+                               HorizontalOptions="Center"/>
+                        <Label Text="No tienes reservas" 
+                               FontSize="18" 
+                               TextColor="#7F8C8D"
+                               HorizontalOptions="Center"/>
+                        <Label Text="¡Busca un viaje y haz tu primera reserva!" 
+                               FontSize="14" 
+                               TextColor="#95A5A6"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:ReservaLocal">
+                        <Grid Padding="15,10">
+                            <Frame BackgroundColor="White"
+                                   CornerRadius="12"
+                                   HasShadow="True"
+                                   BorderColor="#E0E0E0"
+                                   Padding="15">
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" 
+                                      ColumnDefinitions="*,Auto"
+                                      RowSpacing="8">
+
+                                    <!-- Ruta -->
+                                    <StackLayout Grid.Row="0" Grid.Column="0" 
+                                                Orientation="Horizontal" 
+                                                Spacing="5">
+                                        <Label Text="🚌" FontSize="16"/>
+                                        <Label Text="{Binding RutaCompleta}" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold"
+                                               TextColor="#2C3E50"/>
+                                    </StackLayout>
+
+                                    <!-- Estado -->
+                                    <Frame Grid.Row="0" Grid.Column="1"
+                                           BackgroundColor="{Binding Estado, Converter={StaticResource EstadoToColorConverter}}"
+                                           CornerRadius="12"
+                                           Padding="8,4"
+                                           HasShadow="False">
+                                        <Label Text="{Binding EstadoTexto}" 
+                                               TextColor="White" 
+                                               FontSize="12"
+                                               FontAttributes="Bold"/>
+                                    </Frame>
+
+                                    <!-- Fecha del viaje -->
+                                    <StackLayout Grid.Row="1" Grid.ColumnSpan="2" 
+                                                Orientation="Horizontal" 
+                                                Spacing="5">
+                                        <Label Text="📅" FontSize="14"/>
+                                        <Label Text="{Binding FechaViaje, StringFormat='{0:dd/MM/yyyy HH:mm}'}" 
+                                               FontSize="14" 
+                                               TextColor="#2C3E50"/>
+                                    </StackLayout>
+
+                                    <!-- Precio y método de pago -->
+                                    <StackLayout Grid.Row="2" Grid.ColumnSpan="2" 
+                                                Orientation="Horizontal" 
+                                                Spacing="15">
+                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                            <Label Text="💰" FontSize="14"/>
+                                            <Label Text="{Binding Precio, StringFormat='${0:F2}'}" 
+                                                   FontSize="14" 
+                                                   TextColor="#27AE60"
+                                                   FontAttributes="Bold"/>
+                                        </StackLayout>
+
+                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                            <Label Text="💳" FontSize="14"/>
+                                            <Label Text="{Binding MetodoPagoTexto}" 
+                                                   FontSize="14" 
+                                                   TextColor="#2C3E50"/>
+                                        </StackLayout>
+
+                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                            <Label Text="👥" FontSize="14"/>
+                                            <Label Text="{Binding NumeroAsientos}" 
+                                                   FontSize="14" 
+                                                   TextColor="#2C3E50"/>
+                                        </StackLayout>
+                                    </StackLayout>
+
+                                    <!-- Fecha de reserva -->
+                                    <StackLayout Grid.Row="3" Grid.ColumnSpan="2" 
+                                                Orientation="Horizontal" 
+                                                Spacing="5">
+                                        <Label Text="📝" FontSize="12"/>
+                                        <Label Text="{Binding FechaReserva, StringFormat='Reservado el {0:dd/MM/yyyy HH:mm}'}" 
+                                               FontSize="12" 
+                                               TextColor="#7F8C8D"/>
+                                    </StackLayout>
+
+                                    <!-- Botones de acción -->
+                                    <StackLayout Grid.Row="4" Grid.ColumnSpan="2" 
+                                                Orientation="Horizontal" 
+                                                Spacing="10"
+                                                HorizontalOptions="End"
+                                                Margin="0,10,0,0">
+
+                                        <Button Text="❌ Cancelar"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CancelReservaCommand}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#F39C12"
+                                                TextColor="White"
+                                                CornerRadius="15"
+                                                FontSize="12"
+                                                Padding="15,5"
+                                                IsVisible="{Binding Estado, Converter={StaticResource EstadoToBoolConverter}}"/>
+
+                                        <Button Text="🗑️ Eliminar"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteReservaCommand}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#E74C3C"
+                                                TextColor="White"
+                                                CornerRadius="15"
+                                                FontSize="12"
+                                                Padding="15,5"/>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Indicador de carga -->
+        <ActivityIndicator Grid.Row="1"
+                          IsVisible="{Binding IsBusy}"
+                          IsRunning="{Binding IsBusy}"
+                          Color="#8B0000"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center"/>
+    </Grid>
+</ContentPage>
