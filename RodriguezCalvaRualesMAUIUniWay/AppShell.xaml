@@ -28,6 +28,13 @@
             Icon="register.png"
             ContentTemplate="{DataTemplate local:RegisterPage}"
             Route="RegisterPage" />
+        
+        <!-- Pestaña 3: Registro Vehiculo -->
+        <ShellContent
+        Title="Vehículos"
+        Icon="car_add.png"
+        ContentTemplate="{DataTemplate local:RegisterVehiclePage}"
+        Route="RegisterVehiclePage" />
 
         <!-- Pestaña 4: Buscar Viaje -->
         <ShellContent
@@ -49,6 +56,7 @@
             Icon="profile.png"
             ContentTemplate="{DataTemplate local:ProfilePage}"
             Route="ProfilePage" />
+        
     </TabBar>
 
 </Shell>

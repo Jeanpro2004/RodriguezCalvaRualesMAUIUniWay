@@ -57,5 +57,11 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
         {
             await DisplayAlert("Historial", "Historial de viajes próximamente", "OK");
         }
+
+        private async void OnRegisterVehicleClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("//RegisterVehiclePage");
+        }
+
     }
 }

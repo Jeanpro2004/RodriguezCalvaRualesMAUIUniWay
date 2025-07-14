@@ -93,6 +93,15 @@
                         HeightRequest="45"
                         FontSize="14"
                         IsVisible="{Binding UsuarioActual.EsConductor, Converter={StaticResource InvertedBoolConverter}}"/>
+                
+                <Button Text="➕ Registrar Vehículo"
+                        Clicked="OnRegisterVehicleClicked"
+                        BackgroundColor="#3498DB"
+                        TextColor="White"
+                        CornerRadius="15"
+                        HeightRequest="40"
+                        FontSize="14"
+                        IsVisible="{Binding UsuarioActual.EsConductor}"/>
             </Grid>
 
             <!-- Sección para Conductores -->

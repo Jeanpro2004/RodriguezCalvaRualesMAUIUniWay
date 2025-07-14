@@ -26,12 +26,14 @@ public static class MauiProgram
         builder.Services.AddSingleton<NotificationService>();
         builder.Services.AddSingleton<ViajeService>();
         builder.Services.AddSingleton<AuthenticationService>();
+        builder.Services.AddSingleton<VehiculoService>();
 
         // Registrar servicios con interfaces
         builder.Services.AddSingleton<ILogService, LogService>();
         builder.Services.AddSingleton<IUserSessionService, UserSessionService>();
         builder.Services.AddSingleton<IFileManagementService, FileManagementService>();
         builder.Services.AddSingleton<IUsuarioService, UsuarioServiceImpl>();
+
 
         // Registrar ViewModels
         builder.Services.AddTransient<LoginViewModel>();
@@ -40,6 +42,7 @@ public static class MauiProgram
         builder.Services.AddTransient<HomeViewModel>();
         builder.Services.AddTransient<MyRidesViewModel>();
         builder.Services.AddTransient<SearchRideViewModel>();
+        builder.Services.AddTransient<RegisterVehicleViewModel>();
 
         // Registrar Views
         builder.Services.AddTransient<LoginPage>();
@@ -48,6 +51,7 @@ public static class MauiProgram
         builder.Services.AddTransient<HomePage>();
         builder.Services.AddTransient<MyRidesPage>();
         builder.Services.AddTransient<SearchRidePage>();
+        builder.Services.AddTransient<RegisterVehiclePage>();
 
 #if DEBUG
         builder.Logging.AddDebug();
