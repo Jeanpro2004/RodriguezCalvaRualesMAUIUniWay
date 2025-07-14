@@ -13,14 +13,14 @@ namespace RodriguezCalvaRualesMAUIUniWay.Models
         public bool IsSuccessful { get; set; }
         public string ErrorMessage { get; set; }
         public string IpAddress { get; set; }
-        public string DeviceInfo { get; set; }
+        public string DevicePlatform { get; set; }
         public int AttemptNumber { get; set; }
 
         public LoginAttempt()
         {
             AttemptDateTime = DateTime.Now;
             IpAddress = "Local";
-            DeviceInfo = DeviceInfo.Current?.Platform.ToString() ?? "Unknown";
+            DevicePlatform = GetDevicePlatform();
         }
 
         public LoginAttempt(string email, bool isSuccessful, string errorMessage = "", int attemptNumber = 1)
@@ -31,12 +31,24 @@ namespace RodriguezCalvaRualesMAUIUniWay.Models
             AttemptNumber = attemptNumber;
             AttemptDateTime = DateTime.Now;
             IpAddress = "Local";
-            DeviceInfo = DeviceInfo.Current?.Platform.ToString() ?? "Unknown";
+            DevicePlatform = GetDevicePlatform();
+        }
+
+        private static string GetDevicePlatform()
+        {
+            try
+            {
+                return DeviceInfo.Current?.Platform.ToString() ?? "Unknown";
+            }
+            catch
+            {
+                return "Unknown";
+            }
         }
 
         public override string ToString()
         {
-            return $"{AttemptDateTime:yyyy-MM-dd HH:mm:ss}|{Email}|{IsSuccessful}|{ErrorMessage}|{IpAddress}|{DeviceInfo}|{AttemptNumber}";
+            return $"{AttemptDateTime:yyyy-MM-dd HH:mm:ss}|{Email}|{IsSuccessful}|{ErrorMessage}|{IpAddress}|{DevicePlatform}|{AttemptNumber}";
         }
 
         public static LoginAttempt FromString(string line)
@@ -53,14 +65,14 @@ namespace RodriguezCalvaRualesMAUIUniWay.Models
                         IsSuccessful = bool.Parse(parts[2]),
                         ErrorMessage = parts[3],
                         IpAddress = parts[4],
-                        DeviceInfo = parts[5],
+                        DevicePlatform = parts[5],
                         AttemptNumber = int.Parse(parts[6])
                     };
                 }
             }
             catch (Exception)
             {
-                // Si hay error parsing, devolver null
+                
             }
             return null;
         }
