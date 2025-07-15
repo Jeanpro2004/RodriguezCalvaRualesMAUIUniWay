@@ -32,6 +32,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 
             VehicleBrandEntry.IsEnabled = enabled;
             VehicleModelEntry.IsEnabled = enabled;
+            VehicleColorEntry.IsEnabled = enabled;
             VehiclePlateEntry.IsEnabled = enabled;
         }
 
@@ -105,13 +106,61 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
                 };
 
                 await _usuarioService.UpdateUsuarioAsync(_userId, update);
+
+                var allCars = await _vehiculoService.GetVehiculosAsync();
+                var existingVehicle = allCars.FirstOrDefault(v => v.ConductorId == _userId);
+
+                if (DriverRadio.IsChecked)
+                {
+                    if (existingVehicle == null)
+                    {
+                        var newVehiculo = new Vehiculo
+                        {
+                            ConductorId = _userId,
+                            Marca = VehicleBrandEntry.Text,
+                            Modelo = VehicleModelEntry.Text,
+                            Color = VehicleColorEntry.Text,
+                            Placa = VehiclePlateEntry.Text
+                        };
+
+                        await _vehiculoService.CreateVehiculoAsync(newVehiculo);
+                    }
+                    else
+                    {
+                        existingVehicle.Marca = VehicleBrandEntry.Text;
+                        existingVehicle.Modelo = VehicleModelEntry.Text;
+                        existingVehicle.Color = VehicleColorEntry.Text;
+                        existingVehicle.Placa = VehiclePlateEntry.Text;
+
+                        await _vehiculoService.UpdateVehiculoAsync(existingVehicle.Id, existingVehicle);
+                    }
+                }
+                else
+                {
+                    if (existingVehicle != null)
+                    {
+                        await _vehiculoService.DeleteVehiculoAsync(existingVehicle.Id);
+                    }
+
+                    VehicleBrandEntry.Text = "";
+                    VehicleModelEntry.Text = "";
+                    VehicleColorEntry.Text = "";
+                    VehiclePlateEntry.Text = "";
+                    VehicleSection.IsVisible = false;
+                }
+
                 await DisplayAlert("Éxito", "Perfil actualizado correctamente", "OK");
+                _isEditing = false;
+                SetInputsEnabled(false);
+                UpdateButton.IsVisible = false;
+                EditButton.IsVisible = true;
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", $"No se pudo actualizar: {ex.Message}", "OK");
             }
         }
+
 
 
         private async void OnDeleteClicked(object sender, EventArgs e)
@@ -122,7 +171,15 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
 
             try
             {
+                var vehiculos = await _vehiculoService.GetVehiculosAsync();
+                var vehiculo = vehiculos.FirstOrDefault(v => v.ConductorId == _userId);
+                if (vehiculo != null)
+                {
+                    await _vehiculoService.DeleteVehiculoAsync(vehiculo.Id);
+                }
+
                 await _usuarioService.DeleteUsuarioAsync(_userId);
+
                 await DisplayAlert("Cuenta eliminada", "Tu cuenta ha sido eliminada", "OK");
                 await Shell.Current.GoToAsync("//LoginPage");
             }
@@ -131,5 +188,22 @@ namespace RodriguezCalvaRualesMAUIUniWay.Views
                 await DisplayAlert("Error", $"No se pudo eliminar: {ex.Message}", "OK");
             }
         }
+
+        private void OnUserTypeChanged(object sender, CheckedChangedEventArgs e)
+        {
+            // Only act if currently editing
+            if (!_isEditing) return;
+
+            // Show or hide vehicle section based on Driver selection
+            if (DriverRadio.IsChecked)
+            {
+                VehicleSection.IsVisible = true;
+            }
+            else
+            {
+                VehicleSection.IsVisible = false;
+            }
+        }
+
     }
 }

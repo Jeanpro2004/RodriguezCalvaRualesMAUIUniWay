@@ -9,6 +9,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
 {
     public static class SessionService
     {
-        public static int CurrentUserId { get; set; } = 9;
+
+        public static int CurrentUserId { get; set; }
     }
 }

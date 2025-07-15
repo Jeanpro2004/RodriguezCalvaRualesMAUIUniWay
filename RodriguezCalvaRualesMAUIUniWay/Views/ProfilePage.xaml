@@ -122,10 +122,19 @@
                 <Label Text="Tipo de Usuario" TextColor="#2C3E50" FontSize="14" FontAttributes="Bold"/>
                 <StackLayout Orientation="Horizontal" Spacing="20">
                     <StackLayout Orientation="Horizontal" Spacing="5">
-                        <RadioButton x:Name="PassengerRadio" Content="Pasajero" GroupName="UserType" IsChecked="True" TextColor="#2C3E50"/>
+                        <RadioButton x:Name="PassengerRadio"
+                         Content="Pasajero"
+                         GroupName="UserType"
+                         IsChecked="True"
+                         TextColor="#2C3E50"
+                         CheckedChanged="OnUserTypeChanged"/>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" Spacing="5">
-                        <RadioButton x:Name="DriverRadio" Content="Conductor" GroupName="UserType" TextColor="#2C3E50"/>
+                        <RadioButton x:Name="DriverRadio"
+                         Content="Conductor"
+                         GroupName="UserType"
+                         TextColor="#2C3E50"
+                         CheckedChanged="OnUserTypeChanged"/>
                     </StackLayout>
                 </StackLayout>
             </VerticalStackLayout>
@@ -153,8 +162,7 @@
                                PlaceholderColor="#95A5A6"
                                TextColor="#2C3E50"
                                BackgroundColor="Transparent"
-                               Margin="15,0"
-                               IsReadOnly="True"/>
+                               Margin="15,0"/>
                     </Frame>
                 </VerticalStackLayout>
                 <VerticalStackLayout Spacing="5">
