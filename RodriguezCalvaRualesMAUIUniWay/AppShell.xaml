@@ -8,19 +8,21 @@
     Title="UniWay">
 
     <TabBar>
-        <!-- Pestaña 1: Inicio/Empresa -->
+
+        <!-- Pestaña 1: Login -->
+        <ShellContent
+            Title="Ingresar"
+            Icon="login.png"
+            ContentTemplate="{DataTemplate local:LoginPage}"
+            Route="LoginPage" />
+        <!-- Pestaña 2: Inicio/Empresa -->
         <ShellContent
             Title="Inicio"
             Icon="home.png"
             ContentTemplate="{DataTemplate local:HomePage}"
             Route="HomePage" />
 
-        <!-- Pestaña 2: Login -->
-        <ShellContent
-            Title="Ingresar"
-            Icon="login.png"
-            ContentTemplate="{DataTemplate local:LoginPage}"
-            Route="LoginPage" />
+        
 
         <!-- Pestaña 3: Registro -->
         <ShellContent
@@ -46,13 +48,6 @@
             Icon="reserva.png"
             ContentTemplate="{DataTemplate local:ReservasPage}"
             Route="ReservasPage" />
-
-        <!-- Pestaña 5: Mis Viajes -->
-        <ShellContent
-            Title="Viajes"
-            Icon="car.png"
-            ContentTemplate="{DataTemplate local:MyRidesPage}"
-            Route="MyRidesPage" />
 
         <!-- Pestaña 6: Perfil -->
         <ShellContent

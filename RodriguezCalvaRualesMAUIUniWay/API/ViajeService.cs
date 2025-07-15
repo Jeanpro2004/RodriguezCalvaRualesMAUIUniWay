@@ -10,7 +10,7 @@ namespace RodriguezCalvaRualesMAUIUniWay.API
     public class ViajeService
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "http://localhost:7062/";
+        private const string BaseUrl = "https://localhost:7062/";
 
         public ViajeService()
         {
